@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audara — AI-дубляж и субтитры · қазақша · русский · english</title>
+<style>
+  :root {
+    --ink: #0E2A3A;
+    --ink-soft: #45606F;
+    --paper: #F7F9FA;
+    --panel: #FFFFFF;
+    --mist: #DCE7EC;
+    --sky: #0F8BAD;
+    --sky-deep: #0C7391;
+    --gold: #C98F2D;
+    --shadow: 0 1px 2px rgba(14,42,58,.06), 0 8px 24px rgba(14,42,58,.07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #E9F1F4;
+      --ink-soft: #9FB4BE;
+      --paper: #0B1B24;
+      --panel: #122835;
+      --mist: #1E3947;
+      --sky: #3FB6D6;
+      --sky-deep: #56C4E2;
+      --gold: #E0B25C;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --ink: #0E2A3A; --ink-soft: #45606F; --paper: #F7F9FA; --panel: #FFFFFF;
+    --mist: #DCE7EC; --sky: #0F8BAD; --sky-deep: #0C7391; --gold: #C98F2D;
+    --shadow: 0 1px 2px rgba(14,42,58,.06), 0 8px 24px rgba(14,42,58,.07);
+  }
+  :root[data-theme="dark"] {
+    --ink: #E9F1F4; --ink-soft: #9FB4BE; --paper: #0B1B24; --panel: #122835;
+    --mist: #1E3947; --sky: #3FB6D6; --sky-deep: #56C4E2; --gold: #E0B25C;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- шапка ---------- */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+  }
+  .logo { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; }
+  .logo b { color: var(--sky); font-weight: 700; }
+  .hdr-right { display: flex; gap: 10px; align-items: center; }
+  .lang-toggle {
+    display: flex; border: 1px solid var(--mist); border-radius: 100px; overflow: hidden;
+  }
+  .lang-toggle button {
+    border: 0; background: transparent; color: var(--ink-soft);
+    font: inherit; font-size: 12.5px; font-weight: 700; letter-spacing: .06em;
+    padding: 7px 14px; cursor: pointer;
+  }
+  .lang-toggle button.on { background: var(--ink); color: var(--paper); }
+  .btn {
+    display: inline-block; background: var(--sky); color: #fff;
+    font-weight: 600; font-size: 15px; text-decoration: none;
+    padding: 12px 22px; border-radius: 10px; border: 0; cursor: pointer;
+    transition: background .15s;
+  }
+  .btn:hover { background: var(--sky-deep); }
+  .btn.ghost {
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--mist);
+  }
+  .btn.ghost:hover { border-color: var(--sky); color: var(--sky); background: transparent; }
+
+  /* ---------- герой ---------- */
+  .hero { padding: 72px 0 64px; }
+  .kicker {
+    font-size: 12.5px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.04; letter-spacing: -0.03em; font-weight: 700;
+    text-wrap: balance; max-width: 15ch;
+  }
+  .cycle {
+    color: var(--sky); display: inline-block; min-width: 5.4ch;
+    transition: opacity .45s, transform .45s;
+  }
+  .cycle.out { opacity: 0; transform: translateY(.35em); }
+  .hero p.lead {
+    margin: 26px 0 34px; font-size: 19px; color: var(--ink-soft); max-width: 56ch;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .stats {
+    display: flex; gap: 48px; flex-wrap: wrap; margin-top: 56px;
+  }
+  .stat b {
+    display: block; font-size: 34px; font-weight: 700; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums; color: var(--ink);
+  }
+  .stat span { font-size: 14px; color: var(--ink-soft); }
+
+  /* орнаментальная лента: ою-өрнек, сведённый к ромбам */
+  .oyu {
+    height: 10px; margin: 8px 0;
+    background:
+      repeating-linear-gradient(45deg,
+        transparent 0 7px, var(--gold) 7px 9px, transparent 9px 14px),
+      repeating-linear-gradient(-45deg,
+        transparent 0 7px, var(--gold) 7px 9px, transparent 9px 14px);
+    opacity: .5;
+  }
+
+  /* ---------- секции ---------- */
+  section { padding: 72px 0; }
+  .eyebrow {
+    font-size: 12.5px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 12px;
+  }
+  h2 {
+    font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.025em;
+    line-height: 1.15; font-weight: 700; text-wrap: balance; max-width: 24ch;
+  }
+  .sub { color: var(--ink-soft); margin-top: 14px; max-width: 62ch; }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+  .step {
+    background: var(--panel); border: 1px solid var(--mist); border-radius: 14px;
+    padding: 22px; box-shadow: var(--shadow);
+  }
+  .step .n {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--sky); color: #fff; font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+  }
+  .step h3 { font-size: 16.5px; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .step p { font-size: 14px; color: var(--ink-soft); }
+
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--mist); border-radius: 14px;
+    padding: 26px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .card .tag {
+    font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .card h3 { font-size: 19px; letter-spacing: -0.015em; }
+  .card p { font-size: 14.5px; color: var(--ink-soft); }
+
+  .why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
+  .why h3 { font-size: 17px; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .why h3::before {
+    content: ""; display: block; width: 34px; height: 3px;
+    background: var(--gold); margin-bottom: 14px; border-radius: 2px;
+  }
+  .why p { font-size: 14.5px; color: var(--ink-soft); }
+
+  /* демо-слоты */
+  .demos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .demo-slot {
+    aspect-ratio: 16/9; border-radius: 14px; border: 1.5px dashed var(--mist);
+    background: var(--panel);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; color: var(--ink-soft); font-size: 14px; text-align: center; padding: 20px;
+  }
+  .demo-slot .play {
+    width: 54px; height: 54px; border-radius: 50%; background: var(--sky);
+    display: flex; align-items: center; justify-content: center; color: #fff;
+    font-size: 20px; padding-left: 4px;
+  }
+  .demo-slot video { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
+
+  /* тарифы */
+  .prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+  .price {
+    background: var(--panel); border: 1px solid var(--mist); border-radius: 14px;
+    padding: 28px 26px; box-shadow: var(--shadow); display: flex; flex-direction: column;
+  }
+  .price.hot { border-color: var(--sky); border-width: 1.5px; }
+  .price h3 { font-size: 16px; margin-bottom: 4px; }
+  .price .v {
+    font-size: 36px; font-weight: 700; letter-spacing: -0.02em; margin: 10px 0 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .price .v small { font-size: 15px; font-weight: 400; color: var(--ink-soft); }
+  .price ul { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .price li { font-size: 14px; color: var(--ink-soft); padding-left: 22px; position: relative; }
+  .price li::before { content: "✓"; position: absolute; left: 0; color: var(--sky); font-weight: 700; }
+  .prices-note { margin-top: 18px; font-size: 13px; color: var(--ink-soft); }
+
+  /* FAQ */
+  .faq { margin-top: 36px; display: flex; flex-direction: column; gap: 6px; max-width: 760px; }
+  details {
+    background: var(--panel); border: 1px solid var(--mist); border-radius: 12px;
+    padding: 16px 20px;
+  }
+  summary { font-weight: 600; font-size: 15.5px; cursor: pointer; }
+  summary:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; border-radius: 4px; }
+  details p { margin-top: 10px; font-size: 14.5px; color: var(--ink-soft); max-width: 65ch; }
+
+  /* финальный CTA */
+  .final {
+    background: var(--ink); color: var(--paper);
+    border-radius: 20px; padding: 56px 48px; margin: 40px 0 0;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px;
+  }
+  :root[data-theme="dark"] .final, .dark-final { background: var(--panel); }
+  .final h2 { color: inherit; }
+  .final p { color: color-mix(in srgb, var(--paper) 70%, transparent); margin-top: 10px; max-width: 44ch; }
+  .final .btn { background: var(--gold); }
+  .final .btn:hover { background: color-mix(in srgb, var(--gold) 85%, black); }
+
+  footer {
+    padding: 36px 0 48px; display: flex; flex-wrap: wrap; gap: 16px;
+    align-items: center; justify-content: space-between;
+    color: var(--ink-soft); font-size: 13.5px;
+  }
+  footer a { color: var(--sky); text-decoration: none; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s, transform .6s; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .cycle { transition: none; }
+    html { scroll-behavior: auto; }
+  }
+  @media (max-width: 900px) {
+    .steps, .cards3, .prices, .why { grid-template-columns: 1fr 1fr; }
+    .demos { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 580px) {
+    .steps, .cards3, .prices, .why { grid-template-columns: 1fr; }
+    .stats { gap: 28px; }
+    .final { padding: 40px 28px; }
+  }
+  @media (max-width: 640px) {
+    header { flex-wrap: wrap; gap: 12px; padding: 16px 0; }
+    .hdr-right { width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .hdr-right .btn { padding: 10px 14px; font-size: 13.5px; }
+    .hero { padding: 44px 0 48px; }
+    .hero-cta .btn { width: 100%; text-align: center; }
+    .demos { grid-template-columns: 1fr; }
+    .final { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Auda<b>ra</b></div>
+    <div class="hdr-right">
+      <div class="lang-toggle" role="group" aria-label="Тіл / Язык">
+        <button id="btnRu" class="on" onclick="setLang('ru')">РУС</button>
+        <button id="btnKk" onclick="setLang('kk')">ҚАЗ</button>
+      </div>
+      <a class="btn ghost" href="/" id="studioBtn" style="display:none"
+         data-ru="Открыть студию" data-kk="Студияны ашу">Открыть студию</a>
+      <a class="btn" href="#contact"
+         data-ru="Бесплатный пилот" data-kk="Тегін пилот">Бесплатный пилот</a>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="kicker" data-ru="AI-локализация видео · Казахстан"
+         data-kk="Бейнені AI-локализациялау · Қазақстан">AI-локализация видео · Казахстан</div>
+    <h1>
+      <span data-ru="Одно видео —" data-kk="Бір бейне —">Одно видео —</span><br>
+      <span class="cycle" id="cycleWord">қазақша</span>
+    </h1>
+    <p class="lead"
+       data-ru="Загружаете урок, новость или ролик — получаете его на казахском, русском или английском: озвучка нейроголосом, субтитры и полный контроль над переводом. Готово за часы, а не за недели."
+       data-kk="Сабақты, жаңалықты немесе бейнероликті жүктейсіз — оны қазақ, орыс немесе ағылшын тілінде аласыз: нейродауыспен дыбыстау, субтитрлер және аударманы толық бақылау. Апталар емес — санаулы сағат.">
+      Загружаете урок, новость или ролик — получаете его на казахском, русском
+      или английском: озвучка нейроголосом, субтитры и полный контроль над
+      переводом. Готово за часы, а не за недели.
+    </p>
+    <div class="hero-cta">
+      <a class="btn" href="#contact" data-ru="Получить бесплатный пилот" data-kk="Тегін пилот алу">Получить бесплатный пилот</a>
+      <a class="btn ghost" href="#demo" data-ru="Посмотреть демо" data-kk="Демо көру">Посмотреть демо</a>
+      <a class="btn ghost studio-only" href="/" style="display:none"
+         data-ru="🎬 Попробовать в студии" data-kk="🎬 Студияда байқап көру">🎬 Попробовать в студии</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>3</b><span data-ru="языка: қазақша · русский · english" data-kk="тіл: қазақша · орысша · ағылшынша">языка: қазақша · русский · english</span></div>
+      <div class="stat"><b>×10</b><span data-ru="дешевле студийного дубляжа" data-kk="студиялық дубляждан арзан">дешевле студийного дубляжа</span></div>
+      <div class="stat"><b>24 ч</b><span data-ru="на часовой курс, с проверкой" data-kk="бір сағаттық курсқа, тексерумен">на часовой курс, с проверкой</span></div>
+    </div>
+  </div>
+
+  <div class="oyu" aria-hidden="true"></div>
+
+  <section id="how">
+    <div class="eyebrow" data-ru="Как это работает" data-kk="Қалай жұмыс істейді">Как это работает</div>
+    <h2 data-ru="Четыре шага от оригинала до готовой версии"
+        data-kk="Түпнұсқадан дайын нұсқаға дейін төрт қадам">Четыре шага от оригинала до готовой версии</h2>
+    <div class="steps">
+      <div class="step reveal"><div class="n">1</div>
+        <h3 data-ru="Загрузка" data-kk="Жүктеу">Загрузка</h3>
+        <p data-ru="Видео или целая папка курса. Распознаём речь с таймкодами."
+           data-kk="Бейне немесе тұтас курс қалтасы. Сөзді таймкодтармен танимыз.">Видео или целая папка курса. Распознаём речь с таймкодами.</p></div>
+      <div class="step reveal"><div class="n">2</div>
+        <h3 data-ru="Перевод с глоссарием" data-kk="Глоссарийбен аудару">Перевод с глоссарием</h3>
+        <p data-ru="Ваши термины и бренды переводятся всегда одинаково — по словарю клиента."
+           data-kk="Терминдер мен брендтер клиент сөздігі бойынша әрдайым бірдей аударылады.">Ваши термины и бренды переводятся всегда одинаково — по словарю клиента.</p></div>
+      <div class="step reveal"><div class="n">3</div>
+        <h3 data-ru="Проверка текста" data-kk="Мәтінді тексеру">Проверка текста</h3>
+        <p data-ru="Редактор показывает оригинал и перевод рядом с видео. Правите до озвучки."
+           data-kk="Редактор түпнұсқа мен аударманы бейненің қасында көрсетеді. Дыбыстаудан бұрын түзейсіз.">Редактор показывает оригинал и перевод рядом с видео. Правите до озвучки.</p></div>
+      <div class="step reveal"><div class="n">4</div>
+        <h3 data-ru="Озвучка и сборка" data-kk="Дыбыстау және құрастыру">Озвучка и сборка</h3>
+        <p data-ru="Нейроголос ложится в тайминг, субтитры — файлом или в кадре. Забирайте готовое видео."
+           data-kk="Нейродауыс таймингке дәл түседі, субтитрлер — файлмен немесе кадрда. Дайын бейнені алыңыз.">Нейроголос ложится в тайминг, субтитры — файлом или в кадре. Забирайте готовое видео.</p></div>
+    </div>
+  </section>
+
+  <section id="who">
+    <div class="eyebrow" data-ru="Кому это нужно" data-kk="Кімге қажет">Кому это нужно</div>
+    <h2 data-ru="Сделано для тех, кто выпускает контент на двух языках"
+        data-kk="Екі тілде контент шығаратындарға арналған">Сделано для тех, кто выпускает контент на двух языках</h2>
+    <div class="cards3">
+      <div class="card reveal">
+        <div class="tag" data-ru="Онлайн-школы и EdTech" data-kk="Онлайн-мектептер және EdTech">Онлайн-школы и EdTech</div>
+        <h3 data-ru="Курс на казахском — новый рынок" data-kk="Қазақша курс — жаңа нарық">Курс на казахском — новый рынок</h3>
+        <p data-ru="Переведите готовый курс на казахский за дни, а не месяцы. Терминология под вашим контролем: глоссарий + редактор."
+           data-kk="Дайын курсты қазақ тіліне айлар емес, күндер ішінде аударыңыз. Терминология сіздің бақылауыңызда: глоссарий + редактор.">Переведите готовый курс на казахский за дни, а не месяцы. Терминология под вашим контролем: глоссарий + редактор.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tag" data-ru="Медиа и новостные каналы" data-kk="Медиа және жаңалықтар">Медиа и новостные каналы</div>
+        <h3 data-ru="Двуязычный эфир без второго штата" data-kk="Екі тілді эфир — қосымша штатсыз">Двуязычный эфир без второго штата</h3>
+        <p data-ru="Русская версия сюжета превращается в казахскую за минуты: закадровый перевод и субтитры, вшитые в кадр для соцсетей."
+           data-kk="Орысша сюжет бірнеше минутта қазақша нұсқаға айналады: кадр сыртындағы аударма және әлеуметтік желіге арналған субтитрлер.">Русская версия сюжета превращается в казахскую за минуты: закадровый перевод и субтитры, вшитые в кадр для соцсетей.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tag" data-ru="Блогеры и продюсеры" data-kk="Блогерлер мен продюсерлер">Блогеры и продюсеры</div>
+        <h3 data-ru="Одна съёмка — три аудитории" data-kk="Бір түсірілім — үш аудитория">Одна съёмка — три аудитории</h3>
+        <p data-ru="Ролик выходит сразу на казахском, русском и английском. Больше просмотров с того же контента."
+           data-kk="Ролик бірден қазақ, орыс және ағылшын тілдерінде шығады. Сол бір контенттен көбірек қаралым.">Ролик выходит сразу на казахском, русском и английском. Больше просмотров с того же контента.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="eyebrow" data-ru="Не только видео" data-kk="Бейне ғана емес">Не только видео</div>
+    <h2 data-ru="Смежные задачи закрываем тоже" data-kk="Іргелес міндеттерді де шешеміз">Смежные задачи закрываем тоже</h2>
+    <div class="cards3">
+      <div class="card reveal">
+        <div class="tag" data-ru="Озвучка текста" data-kk="Мәтінді дыбыстау">Озвучка текста</div>
+        <h3 data-ru="Текст → готовый MP3" data-kk="Мәтін → дайын MP3">Текст → готовый MP3</h3>
+        <p data-ru="Аудиореклама, объявления, IVR для колл-центра, закадровый текст e-learning — теми же голосами Дәулет и Айгүл."
+           data-kk="Аудиожарнама, хабарландырулар, колл-орталыққа IVR, e-learning кадр сырты мәтіні — сол Дәулет пен Айгүл дауыстарымен.">Аудиореклама, объявления, IVR для колл-центра, закадровый текст e-learning — теми же голосами Дәулет и Айгүл.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tag" data-ru="Документы" data-kk="Құжаттар">Документы</div>
+        <h3 data-ru="Перевод Word с глоссарием" data-kk="Word-ті глоссариймен аудару">Перевод Word с глоссарием</h3>
+        <p data-ru="Машинный черновик для вычитки переводчиком: термины и бренды — строго по вашему словарю. Двуязычные таблицы для сверки."
+           data-kk="Аудармашы тексеруіне арналған машиналық жоба: терминдер мен брендтер — сіздің сөздігіңіз бойынша. Салыстыруға арналған қос тілді кестелер.">Машинный черновик для вычитки переводчиком: термины и бренды — строго по вашему словарю. Двуязычные таблицы для сверки.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tag" data-ru="Встречи и события" data-kk="Кездесулер мен іс-шаралар">Встречи и события</div>
+        <h3 data-ru="Протокол с говорящими" data-kk="Сөйлеушілері бар хаттама">Протокол с говорящими</h3>
+        <p data-ru="Запись переговоров или конференции → расшифровка с автоопределением участников → готовый DOCX-протокол, перевод, субтитры."
+           data-kk="Келіссөз немесе конференция жазбасы → қатысушыларды автоанықтаумен транскрипция → дайын DOCX-хаттама, аударма, субтитрлер.">Запись переговоров или конференции → расшифровка с автоопределением участников → готовый DOCX-протокол, перевод, субтитры.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="oyu" aria-hidden="true"></div>
+
+  <section id="whyus">
+    <div class="eyebrow" data-ru="Почему мы" data-kk="Неге біз">Почему мы</div>
+    <h2 data-ru="Казахский — наша главная фича, а не сотый язык в списке"
+        data-kk="Қазақ тілі — тізімдегі жүзінші тіл емес, біздің басты артықшылығымыз">Казахский — наша главная фича, а не сотый язык в списке</h2>
+    <div class="why">
+      <div class="reveal">
+        <h3 data-ru="Настоящий казахский" data-kk="Нағыз қазақ тілі">Настоящий казахский</h3>
+        <p data-ru="Зарубежные AI-сервисы поддерживают казахский слабо или не поддерживают вовсе. У нас это ядро продукта: голоса Дәулет и Айгүл, словари, стиль."
+           data-kk="Шетелдік AI-сервистер қазақ тілін нашар қолдайды немесе мүлдем қолдамайды. Бізде бұл — өнімнің өзегі: Дәулет пен Айгүл дауыстары, сөздіктер, стиль.">Зарубежные AI-сервисы поддерживают казахский слабо или не поддерживают вовсе. У нас это ядро продукта: голоса Дәулет и Айгүл, словари, стиль.</p>
+      </div>
+      <div class="reveal">
+        <h3 data-ru="Контроль качества" data-kk="Сапаны бақылау">Контроль качества</h3>
+        <p data-ru="Не «чёрный ящик»: перевод можно проверить и поправить до озвучки, фразу — прослушать и переозвучить одной кнопкой."
+           data-kk="«Қара жәшік» емес: аударманы дыбыстаудан бұрын тексеріп түзеуге, фразаны тыңдап, бір батырмамен қайта дыбыстауға болады.">Не «чёрный ящик»: перевод можно проверить и поправить до озвучки, фразу — прослушать и переозвучить одной кнопкой.</p>
+      </div>
+      <div class="reveal">
+        <h3 data-ru="Локальная команда" data-kk="Жергілікті команда">Локальная команда</h3>
+        <p data-ru="Договор в тенге по законам РК, поддержка на казахском и русском, цены — в разы ниже зарубежных сервисов."
+           data-kk="ҚР заңдары бойынша теңгемен шарт, қазақша және орысша қолдау, бағалар шетелдік сервистерден бірнеше есе төмен.">Договор в тенге по законам РК, поддержка на казахском и русском, цены — в разы ниже зарубежных сервисов.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <div class="eyebrow" data-ru="До и после" data-kk="Дейін және кейін">До и после</div>
+    <h2 data-ru="Послушайте сами" data-kk="Өзіңіз тыңдап көріңіз">Послушайте сами</h2>
+    <p class="sub" data-ru="Фрагмент оригинала — и та же сцена в AI-дубляже."
+       data-kk="Түпнұсқа үзіндісі — және сол көрініс AI-дубляжда.">Фрагмент оригинала — и та же сцена в AI-дубляже.</p>
+    <div class="demos">
+      <!-- Замените слоты на свои демо-ролики:
+           <video controls src="demo1.mp4" poster="poster1.jpg"></video> -->
+      <div class="demo-slot reveal">
+        <div class="play">▶</div>
+        <b data-ru="Английский курс → қазақша" data-kk="Ағылшын курсы → қазақша">Английский курс → қазақша</b>
+        <span data-ru="(место для вашего демо-ролика)" data-kk="(демо-роликтің орны)">(место для вашего демо-ролика)</span>
+      </div>
+      <div class="demo-slot reveal">
+        <div class="play">▶</div>
+        <b data-ru="Русский урок → қазақша" data-kk="Орысша сабақ → қазақша">Русский урок → қазақша</b>
+        <span data-ru="(место для вашего демо-ролика)" data-kk="(демо-роликтің орны)">(место для вашего демо-ролика)</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="eyebrow" data-ru="Тарифы" data-kk="Тарифтер">Тарифы</div>
+    <h2 data-ru="Платите за минуты видео, а не за проект"
+        data-kk="Жоба үшін емес, бейне минуттары үшін төлейсіз">Платите за минуты видео, а не за проект</h2>
+    <div class="prices">
+      <div class="price reveal">
+        <h3 data-ru="Субтитры + перевод" data-kk="Субтитрлер + аударма">Субтитры + перевод</h3>
+        <div class="v">250 ₸<small data-ru="/мин видео" data-kk="/бейне мин">/мин видео</small></div>
+        <ul>
+          <li data-ru="Расшифровка с таймкодами" data-kk="Таймкодтармен транскрипция">Расшифровка с таймкодами</li>
+          <li data-ru="Перевод на выбранный язык" data-kk="Таңдалған тілге аударма">Перевод на выбранный язык</li>
+          <li data-ru="SRT и VTT файлы" data-kk="SRT және VTT файлдары">SRT и VTT файлы</li>
+        </ul>
+      </div>
+      <div class="price hot reveal">
+        <h3 data-ru="Дубляж под ключ" data-kk="Толық дубляж">Дубляж под ключ</h3>
+        <div class="v">600 ₸<small data-ru="/мин видео" data-kk="/бейне мин">/мин видео</small></div>
+        <ul>
+          <li data-ru="Всё из тарифа «Субтитры»" data-kk="«Субтитрлер» тарифіндегінің бәрі">Всё из тарифа «Субтитры»</li>
+          <li data-ru="Озвучка нейроголосом в тайминг" data-kk="Таймингке дәл нейродауыс">Озвучка нейроголосом в тайминг</li>
+          <li data-ru="Готовое видео + вшитые субтитры" data-kk="Дайын бейне + кадрдағы субтитрлер">Готовое видео + вшитые субтитры</li>
+        </ul>
+      </div>
+      <div class="price reveal">
+        <h3 data-ru="С редактором-человеком" data-kk="Редактор-адаммен">С редактором-человеком</h3>
+        <div class="v">1 200 ₸<small data-ru="/мин видео" data-kk="/бейне мин">/мин видео</small></div>
+        <ul>
+          <li data-ru="Всё из тарифа «Дубляж»" data-kk="«Дубляж» тарифіндегінің бәрі">Всё из тарифа «Дубляж»</li>
+          <li data-ru="Профессиональная вычитка перевода" data-kk="Аударманы кәсіби тексеру">Профессиональная вычитка перевода</li>
+          <li data-ru="Гарантия терминологии" data-kk="Терминология кепілдігі">Гарантия терминологии</li>
+        </ul>
+      </div>
+    </div>
+    <p class="prices-note"
+       data-ru="Пилотные цены — уточняются по итогам первых проектов. Объёмным заказам (от 300 минут) — индивидуальные условия."
+       data-kk="Пилоттық бағалар — алғашқы жобалардан кейін нақтыланады. Көлемді тапсырыстарға (300 минуттан) — жеке шарттар.">Пилотные цены — уточняются по итогам первых проектов. Объёмным заказам (от 300 минут) — индивидуальные условия.</p>
+  </section>
+
+  <section id="faq-s">
+    <div class="eyebrow">FAQ</div>
+    <h2 data-ru="Частые вопросы" data-kk="Жиі қойылатын сұрақтар">Частые вопросы</h2>
+    <div class="faq">
+      <details class="reveal">
+        <summary data-ru="Насколько качественный перевод на казахский?" data-kk="Қазақшаға аударма қаншалықты сапалы?">Насколько качественный перевод на казахский?</summary>
+        <p data-ru="Машинный перевод даёт крепкую основу, а глоссарий гарантирует вашу терминологию. Для важного контента берите тариф с редактором — носитель языка вычитывает каждый сегмент до озвучки."
+           data-kk="Машиналық аударма берік негіз береді, ал глоссарий терминологияңызға кепілдік береді. Маңызды контентке редакторлы тарифті алыңыз — тіл иесі әр сегментті дыбыстаудан бұрын тексереді.">Машинный перевод даёт крепкую основу, а глоссарий гарантирует вашу терминологию. Для важного контента берите тариф с редактором — носитель языка вычитывает каждый сегмент до озвучки.</p>
+      </details>
+      <details class="reveal">
+        <summary data-ru="Какие голоса доступны?" data-kk="Қандай дауыстар бар?">Какие голоса доступны?</summary>
+        <p data-ru="Мужские и женские нейроголоса для каждого языка: Дәулет и Айгүл (қазақша), Дмитрий и Светлана (русский), Andrew и Ava (english). Голос можно менять даже для отдельной фразы."
+           data-kk="Әр тілге ер және әйел нейродауыстары: Дәулет пен Айгүл (қазақша), Дмитрий мен Светлана (орысша), Andrew және Ava (ағылшынша). Дауысты жеке фраза үшін де ауыстыруға болады.">Мужские и женские нейроголоса для каждого языка: Дәулет и Айгүл (қазақша), Дмитрий и Светлана (русский), Andrew и Ava (english). Голос можно менять даже для отдельной фразы.</p>
+      </details>
+      <details class="reveal">
+        <summary data-ru="Что с правами на контент и данными?" data-kk="Контент құқықтары мен деректер қалай қорғалады?">Что с правами на контент и данными?</summary>
+        <p data-ru="Права на исходный контент остаются у вас, мы обрабатываем материалы только для выполнения заказа. Работаем по договору в соответствии с законодательством РК."
+           data-kk="Түпнұсқа контентке құқықтар сізде қалады, материалдарды тек тапсырысты орындау үшін өңдейміз. ҚР заңнамасына сәйкес шартпен жұмыс істейміз.">Права на исходный контент остаются у вас, мы обрабатываем материалы только для выполнения заказа. Работаем по договору в соответствии с законодательством РК.</p>
+      </details>
+      <details class="reveal">
+        <summary data-ru="Сколько занимает часовой курс?" data-kk="Бір сағаттық курс қанша уақыт алады?">Сколько занимает часовой курс?</summary>
+        <p data-ru="Автоматическая обработка — около часа. С проверкой перевода и правками — как правило, в течение суток. Ручной дубляж такого объёма занимает недели."
+           data-kk="Автоматты өңдеу — шамамен бір сағат. Аударманы тексеру және түзетулермен — әдетте бір тәулік ішінде. Мұндай көлемдегі қолмен дубляж апталарға созылады.">Автоматическая обработка — около часа. С проверкой перевода и правками — как правило, в течение суток. Ручной дубляж такого объёма занимает недели.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="final" id="contact">
+    <div>
+      <h2 data-ru="Первым пяти студиям — пилот бесплатно"
+          data-kk="Алғашқы бес студияға — пилот тегін">Первым пяти студиям — пилот бесплатно</h2>
+      <p data-ru="Пришлите один урок или ролик — вернём его на казахском с субтитрами. Посмотрите качество на своём контенте, потом решайте."
+         data-kk="Бір сабақ немесе ролик жіберіңіз — оны қазақша субтитрлерімен қайтарамыз. Сапаны өз контентіңізде көріп, содан кейін шешіңіз.">Пришлите один урок или ролик — вернём его на казахском с субтитрами. Посмотрите качество на своём контенте, потом решайте.</p>
+    </div>
+    <a class="btn" href="mailto:e.zhanburchinovv@gmail.com?subject=Пилот Audara"
+       data-ru="Написать нам" data-kk="Бізге жазу">Написать нам</a>
+  </div>
+
+  <footer>
+    <div>© 2026 Audara · <span data-ru="AI-локализация видео" data-kk="Бейнені AI-локализациялау">AI-локализация видео</span></div>
+    <div><a href="mailto:e.zhanburchinovv@gmail.com">e.zhanburchinovv@gmail.com</a> · <span data-ru="WhatsApp: добавьте номер" data-kk="WhatsApp: нөмір қосыңыз">WhatsApp: добавьте номер</span></div>
+  </footer>
+</div>
+
+<script>
+// ---- переключение языка ----
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.getElementById('btnRu').classList.toggle('on', lang === 'ru');
+  document.getElementById('btnKk').classList.toggle('on', lang === 'kk');
+  document.querySelectorAll('[data-ru]').forEach(el => {
+    el.textContent = el.dataset[lang] || el.dataset.ru;
+  });
+}
+
+// ---- живое слово в заголовке ----
+const words = {
+  ru: ['қазақша', 'по-русски', 'in english'],
+  kk: ['қазақша', 'орысша', 'ағылшынша'],
+};
+let wi = 0;
+const cycleEl = document.getElementById('cycleWord');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+setInterval(() => {
+  const list = words[document.documentElement.lang] || words.ru;
+  wi = (wi + 1) % list.length;
+  if (reduced) { cycleEl.textContent = list[wi]; return; }
+  cycleEl.classList.add('out');
+  setTimeout(() => {
+    cycleEl.textContent = list[wi];
+    cycleEl.classList.remove('out');
+  }, 450);
+}, 2600);
+
+// ---- кнопки студии: показываем, только если платформа доступна ----
+fetch('/stats').then(r => {
+  if (!r.ok) return;
+  document.getElementById('studioBtn').style.display = '';
+  document.querySelectorAll('.studio-only').forEach(el => el.style.display = '');
+}).catch(() => {});
+
+// ---- появление при прокрутке ----
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
