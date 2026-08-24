@@ -7,26 +7,33 @@
 <meta name="description" content="Видео и документы на казахском, русском, английском и китайском. Озвучка нейроголосом, субтитры, перевод документов — за день, а не за недели.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<!-- Golos Text вместо Manrope: у Manrope нет глифов қ, ғ, ң, ұ, ә — браузер
+     подставлял их из системного шрифта, и в слове «қазақша» буквы разъезжались -->
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #06141b;
-    --ink-2: #0a1d26;
-    --panel: #0e242f;
-    --line: #1b3a4a;
-    --text: #e9f5f9;
-    --muted: #8aa8b6;
-    --cyan: #22c7e0;
-    --cyan-dim: #148ba1;
-    --mint: #4ce0b3;
-    --gold: #e0a93c;
-    --display: "Manrope", "Segoe UI", system-ui, sans-serif;
+    /* светлая палитра в тон студии: тот же бирюзовый акцент и та же тушь */
+    --paper: #ffffff;          /* фон страницы */
+    --card: #f6f8f9;           /* карточки и панели */
+    --panel: #eef3f5;          /* крупные блоки: студия, финал */
+    --line: #dbe3e7;
+    --line-strong: #c3ced5;
+    --text: #14232c;
+    --muted: #55646e;
+    --accent: #0e7490;         /* бирюзовый — как в студии */
+    --accent-dim: #14889f;
+    --accent-ink: #ffffff;     /* текст на акцентной кнопке */
+    --accent-soft: rgba(14,116,144,.08);
+    --good: #14663f;           /* «наша» полоса, итог калькулятора */
+    --amber: #8a5a06;          /* второй акцент: надзаголовки, метки */
+    --amber-soft: rgba(138,90,6,.10);
+    --display: "Golos Text", "Segoe UI", system-ui, sans-serif;
     --body: "Segoe UI", system-ui, -apple-system, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--ink);
+    background: var(--paper);
     color: var(--text);
     font-family: var(--body);
     line-height: 1.6;
@@ -40,8 +47,8 @@
   .glow {
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background:
-      radial-gradient(60vw 40vw at 75% -5%, rgba(34,199,224,.13), transparent 60%),
-      radial-gradient(50vw 40vw at 5% 15%, rgba(224,169,60,.07), transparent 60%);
+      radial-gradient(62vw 42vw at 78% -8%, rgba(14,116,144,.07), transparent 62%),
+      radial-gradient(52vw 40vw at 2% 12%, rgba(138,90,6,.045), transparent 62%);
   }
   .wrap, header { position: relative; z-index: 1; }
 
@@ -51,27 +58,27 @@
     gap: 14px; padding: 20px 24px; max-width: 1120px; margin: 0 auto;
   }
   .logo { font-family: var(--display); font-size: 22px; font-weight: 800; letter-spacing: -0.04em; }
-  .logo i { font-style: normal; color: var(--cyan); }
+  .logo i { font-style: normal; color: var(--accent); }
   .hdr-right { display: flex; gap: 10px; align-items: center; }
   .lang { display: flex; border: 1px solid var(--line); border-radius: 100px; overflow: hidden; }
   .lang button {
     border: 0; background: transparent; color: var(--muted); cursor: pointer;
     font: 700 12px/1 var(--body); letter-spacing: .08em; padding: 9px 13px;
   }
-  .lang button.on { background: var(--text); color: var(--ink); }
+  .lang button.on { background: var(--accent); color: var(--accent-ink); }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    background: var(--cyan); color: #04222a; font-weight: 700; font-size: 15px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
     text-decoration: none; padding: 13px 22px; border-radius: 12px; border: 0;
     cursor: pointer; transition: transform .15s, box-shadow .15s;
-    box-shadow: 0 6px 24px rgba(34,199,224,.22);
+    box-shadow: 0 6px 18px rgba(14,116,144,.18);
   }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(34,199,224,.32); }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(14,116,144,.26); }
   .btn.ghost {
-    background: transparent; color: var(--text); border: 1px solid var(--line);
+    background: var(--paper); color: var(--text); border: 1px solid var(--line-strong);
     box-shadow: none; font-weight: 600;
   }
-  .btn.ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
   .btn.sm { padding: 10px 16px; font-size: 13.5px; }
 
   /* ---------- герой ---------- */
@@ -79,12 +86,12 @@
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
     font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 18px;
+    color: var(--accent); margin-bottom: 18px;
   }
-  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--gold); }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); }
   h1 { font-size: clamp(40px, 5.4vw, 66px); line-height: 1.02; font-weight: 800; text-wrap: balance; }
   .swap {
-    display: inline-block; color: var(--cyan); min-width: 4.5ch;
+    display: inline-block; color: var(--accent); min-width: 4.5ch;
     transition: opacity .35s ease, transform .35s ease;
   }
   .swap.out { opacity: 0; transform: translateY(.3em) rotateX(40deg); }
@@ -93,30 +100,30 @@
 
   /* ---------- живая панель студии ---------- */
   .studio {
-    background: linear-gradient(160deg, var(--panel), var(--ink-2));
+    background: linear-gradient(160deg, var(--paper), var(--panel));
     border: 1px solid var(--line); border-radius: 20px; padding: 18px;
-    box-shadow: 0 30px 70px rgba(0,0,0,.45);
+    box-shadow: 0 18px 44px rgba(20,35,44,.10);
   }
   .studio-top { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; background: #2b4d5c; }
-  .dot.live { background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line-strong); }
+  .dot.live { background: var(--good); box-shadow: 0 0 8px rgba(20,102,63,.45); }
   .studio-top span { margin-left: auto; font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
   canvas { display: block; width: 100%; height: 82px; }
   .cue {
     border-top: 1px solid var(--line); padding-top: 13px; margin-top: 8px;
     display: grid; grid-template-columns: 74px 1fr; gap: 12px; align-items: start;
   }
-  .tc { font: 600 11.5px/1.7 ui-monospace, Consolas, monospace; color: var(--cyan-dim); font-variant-numeric: tabular-nums; }
+  .tc { font: 600 11.5px/1.7 ui-monospace, Consolas, monospace; color: var(--accent-dim); font-variant-numeric: tabular-nums; }
   .cue-src { color: var(--muted); font-size: 13.5px; }
   .cue-tgt { color: var(--text); font-size: 15.5px; font-weight: 600; margin-top: 5px; min-height: 3.1em; }
-  .cue-tgt .cursor { display: inline-block; width: 2px; height: 1em; background: var(--cyan); vertical-align: -2px; animation: blink 1s steps(2) infinite; }
+  .cue-tgt .cursor { display: inline-block; width: 2px; height: 1em; background: var(--accent); vertical-align: -2px; animation: blink 1s steps(2) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
   .chips { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
   .chip {
     font-size: 11.5px; padding: 5px 10px; border-radius: 8px;
     border: 1px solid var(--line); color: var(--muted); transition: all .3s;
   }
-  .chip.on { border-color: var(--cyan); color: var(--cyan); background: rgba(34,199,224,.08); }
+  .chip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
   /* ---------- полоса статистики ---------- */
   .stats {
@@ -124,7 +131,7 @@
     background: var(--line); border: 1px solid var(--line); border-radius: 16px;
     overflow: hidden; margin-bottom: 84px;
   }
-  .stat { background: var(--ink-2); padding: 20px 22px; }
+  .stat { background: var(--card); padding: 20px 22px; }
   .stat .num { display: block; font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; }
   /* keep-all не даёт браузеру разрывать иероглифы посередине слова */
   .stat small { color: var(--muted); font-size: 12px; word-break: keep-all; }
@@ -133,74 +140,159 @@
   section { padding: 20px 0 84px; }
   h2 { font-size: clamp(27px, 3.6vw, 40px); line-height: 1.14; font-weight: 800; text-wrap: balance; max-width: 22ch; }
   .sub { color: var(--muted); margin-top: 14px; max-width: 58ch; font-size: 15.5px; }
-  .kicker { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
 
   /* скорость: полосы сравнения */
   .bars { margin-top: 34px; display: flex; flex-direction: column; gap: 16px; }
   .bar-row { display: grid; grid-template-columns: 190px 1fr auto; gap: 16px; align-items: center; }
   .bar-row .who { font-size: 14.5px; color: var(--muted); }
-  .track { height: 12px; background: var(--ink-2); border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+  .track { height: 12px; background: var(--card); border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
   .fill { height: 100%; width: 0; border-radius: 8px; transition: width 1.2s cubic-bezier(.2,.8,.2,1); }
-  .fill.slow { background: linear-gradient(90deg, #3a5566, #4d6d80); }
-  .fill.mid { background: linear-gradient(90deg, #6b6440, var(--gold)); }
-  .fill.fast { background: linear-gradient(90deg, var(--cyan-dim), var(--mint)); box-shadow: 0 0 18px rgba(76,224,179,.35); }
+  .fill.slow { background: linear-gradient(90deg, #b6c2ca, #97a7b1); }
+  .fill.mid { background: linear-gradient(90deg, #d9b877, var(--amber)); }
+  .fill.fast { background: linear-gradient(90deg, var(--accent-dim), var(--good)); box-shadow: 0 0 14px rgba(20,102,63,.22); }
   .bar-row .val { font: 700 14px/1 var(--display); font-variant-numeric: tabular-nums; min-width: 92px; text-align: right; }
-  .val.hi { color: var(--mint); }
+  .val.hi { color: var(--good); }
 
   /* конвейер */
   .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 38px; }
   .step {
-    background: var(--ink-2); border: 1px solid var(--line); border-radius: 16px; padding: 22px 20px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px 20px;
     position: relative; transition: border-color .25s, transform .25s;
   }
-  .step:hover { border-color: var(--cyan-dim); transform: translateY(-3px); }
+  .step:hover { border-color: var(--accent-dim); transform: translateY(-3px); }
   .step .n {
-    font: 800 13px/1 var(--display); color: var(--ink); background: var(--cyan);
+    font: 800 13px/1 var(--display); color: var(--accent-ink); background: var(--accent);
     width: 28px; height: 28px; border-radius: 9px;
     display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
   }
-  .step.key .n { background: var(--gold); }
+  .step.key .n { background: var(--amber); }   /* шаг, ради которого всё: текст утверждаете вы */
   .step h3 { font-size: 16.5px; font-weight: 800; margin-bottom: 7px; }
   .step p { font-size: 13.5px; color: var(--muted); }
 
   /* карточки услуг */
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 38px; }
+  .cards.four { grid-template-columns: repeat(2, 1fr); }   /* четыре карточки — сеткой 2×2 */
   .card {
-    background: var(--ink-2); border: 1px solid var(--line); border-radius: 16px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
     padding: 24px; transition: border-color .25s, transform .25s;
   }
-  .card:hover { border-color: var(--cyan-dim); transform: translateY(-3px); }
-  .card .tag { font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  .card:hover { border-color: var(--accent-dim); transform: translateY(-3px); }
+  .card .tag { font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
   .card h3 { font-size: 18.5px; font-weight: 800; margin: 9px 0 8px; }
   .card p { font-size: 14px; color: var(--muted); }
 
   /* тарифы */
   .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 38px; }
-  .plan { background: var(--ink-2); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; }
-  .plan.hot { border-color: var(--cyan); background: linear-gradient(170deg, rgba(34,199,224,.09), var(--ink-2)); }
+  .plan { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; }
+  .plan.hot { border-color: var(--accent); background: linear-gradient(170deg, var(--accent-soft), var(--paper)); }
   .plan h3 { font-size: 16px; font-weight: 700; }
   .plan .price { font: 800 36px/1 var(--display); margin: 14px 0 4px; font-variant-numeric: tabular-nums; }
   .plan .price small { font: 400 13px/1 var(--body); color: var(--muted); }
   .plan ul { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
   .plan li { font-size: 13.5px; color: var(--muted); padding-left: 22px; position: relative; }
-  .plan li::before { content: "→"; position: absolute; left: 0; color: var(--cyan); }
+  .plan li::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+  /* ярлычок в углу карточки: в потоке он сдвигал заголовок и цену вниз,
+     и цены трёх тарифов переставали стоять на одной линии */
   .plan .badge {
-    align-self: flex-start; font-size: 11px; font-weight: 700; color: #04222a;
-    background: var(--gold); padding: 3px 10px; border-radius: 20px; margin-bottom: 10px;
+    position: absolute; top: -1px; right: -1px;    /* внахлёст на рамку карточки */
+    font-size: 11px; font-weight: 700; color: var(--accent-ink);
+    background: var(--accent); padding: 5px 12px; border-radius: 0 18px 0 12px;
   }
+  /* заголовок не должен подлезать под ярлычок */
+  .plan.hot h3 { padding-right: 104px; }
   .note { margin-top: 20px; font-size: 13.5px; color: var(--muted); }
   .note b { color: var(--text); }
+
+  /* калькулятор */
+  .calc {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 30px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px;
+  }
+  .cap { font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  .fld { display: block; margin-top: 14px; }
+  .fld span { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .fld select, .fld input, .lead-form input, .lead-form textarea, .lead-form select {
+    width: 100%; background: var(--paper); color: var(--text);
+    border: 1px solid var(--line-strong); border-radius: 10px; padding: 11px 13px;
+    font: inherit; font-size: 14.5px;
+  }
+  .fld select:focus, .fld input:focus, .lead-form input:focus,
+  .lead-form textarea:focus, .lead-form select:focus { outline: none; border-color: var(--accent); }
+  .quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .quick button {
+    background: var(--paper); border: 1px solid var(--line-strong); color: var(--muted);
+    border-radius: 20px; padding: 6px 13px; font: 600 12.5px/1 var(--body); cursor: pointer;
+  }
+  .quick button.on, .quick button:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .calc-out { display: flex; flex-direction: column; justify-content: center; }
+  .calc-out .sum {
+    font: 800 44px/1 var(--display); margin: 10px 0 4px;
+    font-variant-numeric: tabular-nums; color: var(--good);
+  }
+  .calc-out .cmp { font-size: 13.5px; color: var(--muted); }
+  .calc-out .cmp b { color: var(--text); text-decoration: line-through; text-decoration-color: rgba(20,35,44,.35); }
+  .calc-out .save { font-size: 14px; color: var(--good); font-weight: 700; margin: 8px 0 16px; min-height: 20px; }
+  .calc-out .btn { align-self: flex-start; }
+  .tiny { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+  /* форма заявки */
+  .lead-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .lead-form .wide { grid-column: 1 / -1; }
+  .lead-form textarea { min-height: 76px; resize: vertical; }
+  .lead-form .trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .lead-done { font-size: 14.5px; color: var(--good); font-weight: 600; }
+  .lead-err { font-size: 13.5px; color: #a3302e; }
+  @media (max-width: 720px) { .lead-form { grid-template-columns: 1fr; } }
+  @media (max-width: 980px) { .calc { grid-template-columns: 1fr; gap: 18px; } }
+
+  /* «система учится»: цикл из трёх шагов + живой пример правила */
+  .learn { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; margin-top: 38px; align-items: center; }
+  .loop { display: flex; flex-direction: column; gap: 10px; }
+  .loop-step {
+    display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 15px 18px;
+    opacity: .45; transition: opacity .5s, border-color .5s, transform .5s;
+  }
+  .loop-step.on { opacity: 1; border-color: var(--accent-dim); transform: translateX(4px); }
+  .loop-step i {
+    width: 30px; height: 30px; border-radius: 9px; display: flex;
+    align-items: center; justify-content: center; font-style: normal;
+    font: 700 13px/1 var(--display); background: var(--accent-soft); color: var(--accent);
+  }
+  .loop-step b { font-size: 14.5px; display: block; margin-bottom: 3px; }
+  .loop-step span { font-size: 13px; color: var(--muted); }
+
+  .rulebox {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px;
+  }
+  .rulebox .cap { font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  .rule {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin-top: 14px; padding: 11px 14px; border-radius: 11px;
+    background: var(--paper); border: 1px solid var(--line);
+    font-size: 14px; opacity: 0; transform: translateY(6px);
+    transition: opacity .45s, transform .45s;
+  }
+  .rule.show { opacity: 1; transform: none; }
+  .rule s { color: var(--muted); text-decoration-color: rgba(20,35,44,.3); }
+  .rule em { font-style: normal; color: var(--good); font-weight: 700; }
+  .rule .cnt { margin-left: auto; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .rule.learned { border-color: rgba(20,102,63,.4); box-shadow: 0 0 18px rgba(20,102,63,.10); }
+  .rule .mark { font-size: 11px; font-weight: 700; color: var(--good); }
+  @media (max-width: 980px) { .learn { grid-template-columns: 1fr; gap: 24px; } }
 
   /* демо */
   .demos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 38px; }
   .demo {
     aspect-ratio: 16/9; border: 1.5px dashed var(--line); border-radius: 16px;
-    background: var(--ink-2); display: flex; flex-direction: column;
+    background: var(--card); display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 10px; text-align: center; padding: 22px;
   }
   .demo .play {
-    width: 54px; height: 54px; border-radius: 50%; background: rgba(34,199,224,.14);
-    border: 1px solid var(--cyan-dim); color: var(--cyan);
+    width: 54px; height: 54px; border-radius: 50%; background: var(--accent-soft);
+    border: 1px solid var(--accent-dim); color: var(--accent);
     display: flex; align-items: center; justify-content: center; font-size: 19px; padding-left: 4px;
   }
   .demo b { font-size: 15px; }
@@ -209,34 +301,34 @@
 
   /* FAQ */
   .faq { margin-top: 32px; display: flex; flex-direction: column; gap: 8px; max-width: 780px; }
-  details { background: var(--ink-2); border: 1px solid var(--line); border-radius: 14px; padding: 17px 20px; }
-  details[open] { border-color: var(--cyan-dim); }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 17px 20px; }
+  details[open] { border-color: var(--accent-dim); }
   summary { font-weight: 700; font-size: 15.5px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 14px; }
   summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; color: var(--cyan); font-weight: 800; }
+  summary::after { content: "+"; color: var(--accent); font-weight: 800; }
   details[open] summary::after { content: "–"; }
-  summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 4px; }
+  summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
   details p { margin-top: 11px; font-size: 14.5px; color: var(--muted); }
 
   /* финал */
   .final {
-    background: linear-gradient(150deg, rgba(34,199,224,.13), rgba(224,169,60,.07)), var(--panel);
+    background: linear-gradient(150deg, var(--accent-soft), var(--amber-soft)), var(--panel);
     border: 1px solid var(--line); border-radius: 24px; padding: 48px;
     display: flex; flex-wrap: wrap; gap: 30px; align-items: center; justify-content: space-between;
   }
   .final h2 { max-width: 18ch; }
   .final p { color: var(--muted); margin-top: 12px; max-width: 42ch; }
-  .final .btn { background: var(--gold); color: #23180a; box-shadow: 0 6px 24px rgba(224,169,60,.25); }
+  .final .btn { background: var(--accent); color: var(--accent-ink); box-shadow: 0 6px 18px rgba(14,116,144,.22); }
   .steps-mini { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
   .steps-mini div { font-size: 14px; color: var(--muted); display: flex; gap: 10px; }
-  .steps-mini b { color: var(--cyan); font-family: var(--display); }
+  .steps-mini b { color: var(--accent); font-family: var(--display); }
 
   footer {
     padding: 44px 0 56px; display: flex; flex-wrap: wrap; gap: 14px;
     justify-content: space-between; color: var(--muted); font-size: 13.5px;
     border-top: 1px solid var(--line); margin-top: 60px;
   }
-  footer a { color: var(--cyan); text-decoration: none; }
+  footer a { color: var(--accent); text-decoration: none; }
 
   /* блоки прячем только когда анимация точно доступна: без JS или при сбое
      наблюдателя контент остаётся видимым */
@@ -256,13 +348,30 @@
   @media (max-width: 640px) {
     header { flex-wrap: wrap; }
     .hdr-right { width: 100%; justify-content: space-between; }
-    .flow, .cards, .plans, .demos { grid-template-columns: 1fr; }
+    .flow, .cards, .cards.four, .plans, .demos { grid-template-columns: 1fr; }
     .hero-cta .btn { width: 100%; }
     .bar-row { grid-template-columns: 1fr; gap: 6px; }
     .bar-row .val { text-align: left; }
     .final { padding: 32px 24px; }
     section { padding-bottom: 62px; }
+
+    /* На телефоне нажимают пальцем, а не курсором: мелкие цели — это
+       промахи. Ниже 44 px по высоте не оставляем ничего, что нажимается. */
+    .lang button, .quick button {
+      min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+    }
+    .lang button { padding: 0 16px; }
+    .quick button { padding: 0 15px; font-size: 13.5px; }
+    summary { padding: 13px 0; }
+    details { padding: 4px 20px; }
+
+    /* подписи капсом и цифры под ними: 11–12 px на телефоне уже мелко */
+    .stat small, .tiny, .card .tag, .eyebrow, .kicker, .cap,
+    .rulebox .cap { font-size: 12.5px; }
+    .plan li, .demo span { font-size: 14px; }
   }
+  /* переключатель языка не сжимаем: иначе «ҚАЗ» обрезается соседней кнопкой */
+  .lang { flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -411,9 +520,9 @@
   <!-- ПОЧЕМУ МЫ -->
   <section id="why">
     <div class="kicker" data-ru="Почему мы" data-kk="Неге біз">Почему мы</div>
-    <h2 data-ru="Казахский — не сотый язык в списке, а ядро продукта"
-        data-kk="Қазақ тілі — тізімдегі жүзінші тіл емес, өнімнің өзегі">Казахский — не сотый язык в списке, а ядро продукта</h2>
-    <div class="cards">
+    <h2 data-ru="Казахский — ядро проекта"
+        data-kk="Қазақ тілі — жобаның өзегі">Казахский — ядро проекта</h2>
+    <div class="cards four">
       <div class="card reveal">
         <div class="tag">01</div>
         <h3 data-ru="Настоящий казахский" data-kk="Нағыз қазақ тілі">Настоящий казахский</h3>
@@ -432,7 +541,62 @@
         <p data-ru="Договор и оплата в тенге по законам РК, поддержка на казахском и русском, ответ в WhatsApp в тот же день."
            data-kk="ҚР заңдары бойынша теңгемен шарт пен төлем, қазақша және орысша қолдау, WhatsApp-та сол күні жауап.">Договор и оплата в тенге по законам РК, поддержка на казахском и русском, ответ в WhatsApp в тот же день.</p>
       </div>
+      <div class="card reveal">
+        <div class="tag">04</div>
+        <h3 data-ru="Работа командой, а не перепиской" data-kk="Хат алмасу емес, командалық жұмыс">Работа командой, а не перепиской</h3>
+        <p data-ru="Свой кабинет: видео и перевод рядом, роли для переводчиков и редакторов, история версий с возвратом к любой. Утверждённые фразы переиспользуются в следующих заказах — терминология не расходится между проектами."
+           data-kk="Жеке кабинет: бейне мен аударма қатар, аудармашылар мен редакторларға рөлдер, кез келгеніне қайтуға болатын нұсқалар тарихы. Бекітілген фразалар келесі тапсырыстарда қайта қолданылады.">Свой кабинет: видео и перевод рядом, роли для переводчиков и редакторов, история версий с возвратом к любой. Утверждённые фразы переиспользуются в следующих заказах — терминология не расходится между проектами.</p>
+      </div>
     </div>
+  </section>
+
+  <!-- СИСТЕМА УЧИТСЯ -->
+  <section id="learn">
+    <div class="kicker" data-ru="Со временем" data-kk="Уақыт өте">Со временем</div>
+    <h2 data-ru="Чем больше заказов — тем меньше правок"
+        data-kk="Тапсырыс көбейген сайын — түзету азаяды">Чем больше заказов — тем меньше правок</h2>
+    <p class="sub" data-ru="Обычный переводчик-сервис каждый раз начинает с нуля. Наша система запоминает решения ваших редакторов и применяет их дальше — сама."
+       data-kk="Кәдімгі аударма сервисі әр жолы нөлден бастайды. Біздің жүйе редакторларыңыздың шешімін есте сақтап, әрі қарай өзі қолданады.">
+      Обычный переводчик-сервис каждый раз начинает с нуля. Наша система запоминает
+      решения ваших редакторов и применяет их дальше — сама.</p>
+
+    <div class="learn">
+      <div class="loop" id="loop">
+        <div class="loop-step reveal"><i>1</i><div>
+          <b data-ru="Редактор правит перевод" data-kk="Редактор аударманы түзетеді">Редактор правит перевод</b>
+          <span data-ru="Обычная работа над заказом: термин, название, формулировка."
+                data-kk="Тапсырыстағы әдеттегі жұмыс: термин, атау, тұжырым.">Обычная работа над заказом: термин, название, формулировка.</span>
+        </div></div>
+        <div class="loop-step reveal"><i>2</i><div>
+          <b data-ru="Система видит повтор" data-kk="Жүйе қайталанғанын көреді">Система видит повтор</b>
+          <span data-ru="Одна и та же замена в разных заказах — уже не случайность, а ваша норма."
+                data-kk="Әртүрлі тапсырыстағы бірдей түзету — кездейсоқтық емес, сіздің нормаңыз.">Одна и та же замена в разных заказах — уже не случайность, а ваша норма.</span>
+        </div></div>
+        <div class="loop-step reveal"><i>3</i><div>
+          <b data-ru="Правило работает дальше" data-kk="Ереже әрі қарай жұмыс істейді">Правило работает дальше</b>
+          <span data-ru="Со следующего заказа термин переводится верно сразу — править нечего."
+                data-kk="Келесі тапсырыстан бастап термин бірден дұрыс аударылады.">Со следующего заказа термин переводится верно сразу — править нечего.</span>
+        </div></div>
+      </div>
+
+      <div class="rulebox reveal">
+        <div class="cap" data-ru="Так это выглядит" data-kk="Бұл былай көрінеді">Так это выглядит</div>
+        <div class="rule" id="rule1"><s>подчинение</s> → <em>сабмишн</em><span class="cnt">1-й заказ</span></div>
+        <div class="rule" id="rule2"><s>подчинение</s> → <em>сабмишн</em><span class="cnt">3-й заказ</span></div>
+        <div class="rule" id="rule3"><span class="mark">✓</span> <em>сабмишн</em>
+          <span data-ru="— теперь всегда" data-kk="— енді әрқашан">— теперь всегда</span>
+          <span class="cnt" data-ru="выучено" data-kk="үйренілді">выучено</span></div>
+        <p class="note" style="margin-top:16px"
+           data-ru="Правило включается только после подтверждения человеком — случайная правка нормой не станет."
+           data-kk="Ереже адам растағаннан кейін ғана қосылады — кездейсоқ түзету норма болмайды.">
+          Правило включается только после подтверждения человеком — случайная правка нормой не станет.</p>
+      </div>
+    </div>
+
+    <p class="note" data-ru="Сюда же идут исправления распознавания речи: имена, бренды и термины, которые модель слышит неправильно, дальше подсказываются ей заранее."
+       data-kk="Сөзді тану түзетулері де осында: модель қате еститін атаулар мен терминдер оған алдын ала ұсынылады.">
+      Сюда же идут исправления распознавания речи: имена, бренды и термины, которые
+      модель слышит неправильно, дальше подсказываются ей заранее.</p>
   </section>
 
   <!-- ДЕМО -->
@@ -493,6 +657,45 @@
        data-kk="Құжаттар — беті 500 ₸-ден (1 800 таңба), тексерумен — 1 500 ₸. Бір сағат бейне «кілттен» — студиядағы 300 000 ₸-нің орнына 36 000 ₸.">
       Документы — от 500 ₸ за страницу (1 800 знаков), с вычиткой — 1 500 ₸.
       <b>Час видео «под ключ» — 36 000 ₸ вместо 300 000 ₸ у студии.</b></p>
+
+    <!-- КАЛЬКУЛЯТОР -->
+    <div class="calc reveal" id="calc">
+      <div>
+        <div class="cap" data-ru="Сколько это будет стоить" data-kk="Бұл қанша тұрады">Сколько это будет стоить</div>
+        <label class="fld">
+          <span data-ru="Что нужно" data-kk="Не қажет">Что нужно</span>
+          <select id="cPlan">
+            <option value="250" data-ru="Субтитры и перевод" data-kk="Субтитрлер мен аударма">Субтитры и перевод</option>
+            <option value="600" selected data-ru="Дубляж под ключ" data-kk="Толық дубляж">Дубляж под ключ</option>
+            <option value="1200" data-ru="Дубляж + редактор-носитель" data-kk="Дубляж + тіл иесі редактор">Дубляж + редактор-носитель</option>
+          </select>
+        </label>
+        <label class="fld">
+          <span data-ru="Сколько минут видео" data-kk="Қанша минут бейне">Сколько минут видео</span>
+          <input type="number" id="cMin" min="1" max="100000" value="60">
+        </label>
+        <div class="quick" id="cQuick">
+          <button data-m="10">10 мин</button>
+          <button data-m="60" class="on" data-ru="1 час" data-kk="1 сағат">1 час</button>
+          <button data-m="300" data-ru="5 часов" data-kk="5 сағат">5 часов</button>
+          <button data-m="1200" data-ru="Курс на 20 часов" data-kk="20 сағаттық курс">Курс на 20 часов</button>
+        </div>
+      </div>
+      <div class="calc-out">
+        <div class="cap" data-ru="Ваша цена" data-kk="Сіздің бағаңыз">Ваша цена</div>
+        <div class="sum" id="cSum">36 000 ₸</div>
+        <div class="cmp">
+          <span data-ru="У студии дубляжа" data-kk="Дубляж студиясында">У студии дубляжа</span>
+          <b id="cOld">300 000 ₸</b>
+        </div>
+        <div class="save" id="cSave"></div>
+        <a class="btn" href="#contact" data-ru="Начать с бесплатного пилота" data-kk="Тегін пилоттан бастау">Начать с бесплатного пилота</a>
+        <p class="tiny" data-ru="Расчёт ориентировочный: точная цена зависит от материала и сроков. Первый ролик переводим бесплатно."
+           data-kk="Есеп шамамен: нақты баға материал мен мерзімге байланысты. Алғашқы роликті тегін аударамыз.">
+          Расчёт ориентировочный: точная цена зависит от материала и сроков.
+          Первый ролик переводим бесплатно.</p>
+      </div>
+    </div>
   </section>
 
   <!-- FAQ -->
@@ -535,8 +738,47 @@
         <div><b>03</b><span data-ru="Понравилось — обсуждаем остальной объём" data-kk="Ұнаса — қалған көлемді талқылаймыз">Понравилось — обсуждаем остальной объём</span></div>
       </div>
     </div>
-    <a class="btn" href="https://wa.me/77078055819"
-       data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+    <div>
+      <a class="btn" href="https://wa.me/77078055819"
+         data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+      <p class="tiny" style="margin-top:10px"
+         data-ru="или оставьте заявку — свяжемся сами, в тот же день"
+         data-kk="немесе өтінім қалдырыңыз — сол күні өзіміз хабарласамыз">
+        или оставьте заявку — свяжемся сами, в тот же день</p>
+
+      <form class="lead-form" id="leadForm" autocomplete="on">
+        <input type="text" name="website" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="text" id="lName" placeholder="Имя" maxlength="120"
+               data-ph-ru="Имя" data-ph-kk="Аты">
+        <input type="text" id="lContact" placeholder="WhatsApp или e-mail" maxlength="160" required
+               data-ph-ru="WhatsApp или e-mail" data-ph-kk="WhatsApp немесе e-mail">
+        <select id="lKind">
+          <option data-ru="Видео и курсы" data-kk="Бейне және курстар">Видео и курсы</option>
+          <option data-ru="Документы" data-kk="Құжаттар">Документы</option>
+          <option data-ru="Озвучка текста" data-kk="Мәтінді дыбыстау">Озвучка текста</option>
+          <option data-ru="Другое" data-kk="Басқа">Другое</option>
+        </select>
+        <select id="lLang">
+          <option>қазақша</option>
+          <option data-ru="русский" data-kk="орысша">русский</option>
+          <option>english</option>
+          <option>中文</option>
+        </select>
+        <input type="text" class="wide" id="lLink" maxlength="500"
+               placeholder="Ссылка на материал (YouTube, Диск) — по желанию"
+               data-ph-ru="Ссылка на материал (YouTube, Диск) — по желанию"
+               data-ph-kk="Материалға сілтеме (YouTube, Диск) — қалауыңызша">
+        <textarea class="wide" id="lComment" maxlength="1500"
+                  placeholder="Что переводим и к какому сроку"
+                  data-ph-ru="Что переводим и к какому сроку"
+                  data-ph-kk="Нені аударамыз және қай мерзімге"></textarea>
+        <div class="wide" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+          <button type="submit" class="btn ghost" id="lSend"
+                  data-ru="Отправить заявку" data-kk="Өтінім жіберу">Отправить заявку</button>
+          <span id="lStatus"></span>
+        </div>
+      </form>
+    </div>
   </div>
 
   <footer>
@@ -557,6 +799,11 @@ function setLang(lang) {
   document.querySelectorAll('[data-ru]').forEach(el => {
     el.textContent = el.dataset[lang] || el.dataset.ru;
   });
+  // подсказки в полях формы живут отдельно: у них нет текстового содержимого
+  document.querySelectorAll('[data-ph-ru]').forEach(el => {
+    el.placeholder = el.dataset['ph' + (lang === 'kk' ? 'Kk' : 'Ru')] || el.dataset.phRu;
+  });
+  if (typeof calc === 'function') calc();   // «Экономия» тоже переводится
 }
 
 /* ---------- живая демонстрация: одна фраза на четырёх языках ---------- */
@@ -634,7 +881,7 @@ function drawWave() {
           Math.sin(p * 7 + t * 0.9) * 5);
       x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
     }
-    ctx.strokeStyle = `rgba(34,199,224,${alpha})`;
+    ctx.strokeStyle = `rgba(14,116,144,${alpha})`;
     ctx.lineWidth = layer === 0 ? 2 : 1.2;
     ctx.stroke();
   }
@@ -642,8 +889,94 @@ function drawWave() {
   requestAnimationFrame(drawWave);
 }
 if (!reduced) drawWave();
-else { ctx.strokeStyle = 'rgba(34,199,224,.6)'; ctx.beginPath();
+else { ctx.strokeStyle = 'rgba(14,116,144,.6)'; ctx.beginPath();
        ctx.moveTo(0, cv.clientHeight / 2); ctx.lineTo(cv.clientWidth, cv.clientHeight / 2); ctx.stroke(); }
+
+/* ---------- калькулятор ---------- */
+const STUDIO_RATE = 5000;   // студийный дубляж ≈ 300 000 ₸ за час = 5 000 ₸/мин
+const money = n => Math.round(n).toLocaleString('ru-RU').replace(/,/g, ' ') + ' ₸';
+
+function calc() {
+  const rate = +document.getElementById('cPlan').value;
+  const min = Math.max(1, Math.min(100000, +document.getElementById('cMin').value || 1));
+  const sum = rate * min;
+  const old = STUDIO_RATE * min;
+  document.getElementById('cSum').textContent = money(sum);
+  document.getElementById('cOld').textContent = money(old);
+  const lang = document.documentElement.lang === 'kk' ? 'kk' : 'ru';
+  document.getElementById('cSave').textContent = sum < old
+    ? (lang === 'kk' ? `Үнемдейсіз ${money(old - sum)}` : `Экономия ${money(old - sum)}`)
+    : '';
+  document.querySelectorAll('#cQuick button')
+    .forEach(b => b.classList.toggle('on', +b.dataset.m === min));
+}
+
+document.getElementById('cPlan').onchange = calc;
+document.getElementById('cMin').oninput = calc;
+document.querySelectorAll('#cQuick button').forEach(b => {
+  b.onclick = () => { document.getElementById('cMin').value = b.dataset.m; calc(); };
+});
+calc();
+
+/* ---------- заявка ---------- */
+document.getElementById('leadForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const lang = document.documentElement.lang === 'kk' ? 'kk' : 'ru';
+  const status = document.getElementById('lStatus');
+  const contact = document.getElementById('lContact').value.trim();
+  if (!contact) {
+    status.className = 'lead-err';
+    status.textContent = lang === 'kk' ? 'Байланыс жолын толтырыңыз' : 'Укажите, как с вами связаться';
+    return;
+  }
+  const btn = document.getElementById('lSend');
+  btn.disabled = true;
+  status.className = '';
+  status.textContent = lang === 'kk' ? 'Жіберілуде…' : 'Отправляю…';
+  const min = +document.getElementById('cMin').value || 0;
+  try {
+    const resp = await fetch('/lead', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        website: document.querySelector('#leadForm .trap').value,   // ловушка для ботов
+        name: document.getElementById('lName').value,
+        contact,
+        kind: document.getElementById('lKind').value,
+        lang: document.getElementById('lLang').value,
+        volume: min ? `${min} мин` : '',
+        link: document.getElementById('lLink').value,
+        comment: document.getElementById('lComment').value,
+        price: (+document.getElementById('cPlan').value || 0) * min,
+        source: 'landing/' + lang,
+      }),
+    });
+    if (!resp.ok) throw new Error();
+    status.className = 'lead-done';
+    status.textContent = lang === 'kk'
+      ? 'Өтінім қабылданды — бүгін хабарласамыз.'
+      : 'Заявка принята — свяжемся сегодня.';
+    document.getElementById('leadForm').reset();
+  } catch {
+    // На публичном сайте нашего сервера нет: заявке некуда прийти. Вместо
+    // тупика «не отправилось» собираем то же самое сообщение и открываем
+    // WhatsApp — человек уже всё заполнил, терять этот труд нельзя.
+    const lines = [
+      lang === 'kk' ? 'Сәлеметсіз бе! Audara бойынша өтінім:' : 'Здравствуйте! Заявка с сайта Audara:',
+      `${lang === 'kk' ? 'Аты' : 'Имя'}: ${document.getElementById('lName').value || '—'}`,
+      `${lang === 'kk' ? 'Не аудару керек' : 'Что переводим'}: ${document.getElementById('lKind').selectedOptions[0].textContent}`,
+      `${lang === 'kk' ? 'Тіл' : 'Язык'}: ${document.getElementById('lLang').selectedOptions[0].textContent}`,
+      min ? `${lang === 'kk' ? 'Көлемі' : 'Объём'}: ${min} ${lang === 'kk' ? 'мин' : 'мин'}` : '',
+      document.getElementById('lLink').value ? `${lang === 'kk' ? 'Сілтеме' : 'Ссылка'}: ${document.getElementById('lLink').value}` : '',
+      document.getElementById('lComment').value || '',
+    ].filter(Boolean);
+    window.open('https://wa.me/77078055819?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+    status.className = 'lead-done';
+    status.textContent = lang === 'kk'
+      ? 'WhatsApp ашылды — жіберуді басыңыз.'
+      : 'Открыл WhatsApp — осталось нажать «отправить».';
+  }
+  btn.disabled = false;
+});
 
 /* ---------- кнопка студии: только если платформа рядом ---------- */
 fetch('/stats').then(r => { if (r.ok) document.getElementById('studioBtn').style.display = ''; })
@@ -658,6 +991,33 @@ function show(el) {
       setTimeout(() => { f.style.width = f.dataset.w + '%'; }, reduced ? 0 : i * 180);
     });
   }
+  if (el.id === 'loop') playLearnLoop();
+}
+
+/* ---------- цикл обучения: шаги и появление правила ---------- */
+let loopPlayed = false;
+function playLearnLoop() {
+  if (loopPlayed) return;
+  loopPlayed = true;
+  const steps = [...document.querySelectorAll('.loop-step')];
+  const rules = ['rule1', 'rule2', 'rule3'].map(id => document.getElementById(id));
+  if (reduced) {   // без анимации — просто показываем итог
+    steps.forEach(s => s.classList.add('on'));
+    rules.forEach(r => r && r.classList.add('show'));
+    rules[2] && rules[2].classList.add('learned');
+    return;
+  }
+  steps.forEach((s, i) => setTimeout(() => {
+    steps.forEach(x => x.classList.remove('on'));
+    s.classList.add('on');
+    const r = rules[i];
+    if (r) {
+      r.classList.add('show');
+      if (i === 2) r.classList.add('learned');
+    }
+    // после последнего шага оставляем всё видимым
+    if (i === steps.length - 1) setTimeout(() => steps.forEach(x => x.classList.add('on')), 900);
+  }, i * 1100));
 }
 
 if (!reduced && 'IntersectionObserver' in window) {
@@ -665,13 +1025,15 @@ if (!reduced && 'IntersectionObserver' in window) {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
   }, { threshold: 0.15 });
-  const watched = [...document.querySelectorAll('.reveal'), document.getElementById('bars')];
+  const watched = [...document.querySelectorAll('.reveal'),
+                   document.getElementById('bars'), document.getElementById('loop')];
   watched.forEach(el => el && io.observe(el));
   // страховка: если наблюдатель почему-то молчит — показываем всё
   setTimeout(() => watched.forEach(el => el && show(el)), 2500);
 } else {
   document.querySelectorAll('.reveal').forEach(show);
   show(document.getElementById('bars'));
+  show(document.getElementById('loop'));
 }
 </script>
 </body>
