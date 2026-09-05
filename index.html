@@ -264,6 +264,8 @@
   .loop-step b { font-size: 14.5px; display: block; margin-bottom: 3px; }
   .loop-step span { font-size: 13px; color: var(--muted); }
 
+  .rule .src { color: var(--muted); font-size: 12.5px; margin-right: 4px; }
+
   .rulebox {
     background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px;
   }
@@ -303,9 +305,9 @@
   .voice-langs button.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
   /* Шесть голосов ложатся в две ровные строки по три. Автоподбор колонок
      давал четыре и два — вторая строка выглядела обрубком. */
-  .voices { display: grid; grid-template-columns: repeat(3, 1fr);
+  .voices { display: grid; grid-template-columns: repeat(4, 1fr);
             gap: 12px; margin-top: 20px; }
-  @media (max-width: 900px) { .voices { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 1000px) { .voices { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .voices { grid-template-columns: 1fr; } }
   .voice {
     display: flex; align-items: center; gap: 12px; text-align: left;
@@ -325,7 +327,8 @@
   .voice span { font-size: 12.5px; color: var(--muted); }
   @media (max-width: 720px) { .voice { min-height: 56px; } }
 
-  .demos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
+  .demos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 28px; }
+  @media (max-width: 720px) { .demos { grid-template-columns: 1fr; } }
   .demo {
     aspect-ratio: 16/9; border: 1.5px dashed var(--line); border-radius: 16px;
     background: var(--card); display: flex; flex-direction: column;
@@ -622,9 +625,9 @@
 
       <div class="rulebox reveal">
         <div class="cap" data-ru="Так это выглядит" data-kk="Бұл былай көрінеді">Так это выглядит</div>
-        <div class="rule" id="rule1"><s>подчинение</s> → <em>сабмишн</em><span class="cnt">1-й заказ</span></div>
-        <div class="rule" id="rule2"><s>подчинение</s> → <em>сабмишн</em><span class="cnt">3-й заказ</span></div>
-        <div class="rule" id="rule3"><span class="mark">✓</span> <em>сабмишн</em>
+        <div class="rule" id="rule1"><span class="src">submission:</span> <s>подчинение</s> → <em>болевой приём</em><span class="cnt">1-й заказ</span></div>
+        <div class="rule" id="rule2"><span class="src">submission:</span> <s>подчинение</s> → <em>болевой приём</em><span class="cnt">3-й заказ</span></div>
+        <div class="rule" id="rule3"><span class="mark">✓</span> <em>болевой приём</em>
           <span data-ru="— теперь всегда" data-kk="— енді әрқашан">— теперь всегда</span>
           <span class="cnt" data-ru="выучено" data-kk="үйренілді">выучено</span></div>
         <p class="note" style="margin-top:16px"
@@ -644,23 +647,28 @@
   <section id="demo">
     <div class="kicker" data-ru="До и после" data-kk="Дейін және кейін">До и после</div>
     <h2 data-ru="Послушайте сами" data-kk="Өзіңіз тыңдаңыз">Послушайте сами</h2>
-    <p class="lead" data-ru="Один ролик NASA на трёх языках. Голос везде один и тот же — диктора из оригинала: студия взяла его из самой записи, отдельного образца не давали."
-       data-kk="NASA-ның бір ролигі үш тілде. Дауыс бәрінде бірдей — түпнұсқадағы диктордың дауысы: студия оны жазбаның өзінен алды.">Один ролик NASA на трёх языках. Голос везде один и тот же — диктора из оригинала: студия взяла его из самой записи, отдельного образца не давали.</p>
+    <p class="lead" data-ru="Один ролик NASA на четырёх языках. Голос везде один и тот же — диктора из оригинала: студия взяла его из самой записи, отдельного образца не давали."
+       data-kk="NASA-ның бір ролигі төрт тілде. Дауыс бәрінде бірдей — түпнұсқадағы диктордың дауысы: студия оны жазбаның өзінен алды.">Один ролик NASA на четырёх языках. Голос везде один и тот же — диктора из оригинала: студия взяла его из самой записи, отдельного образца не давали.</p>
     <div class="demos">
       <figure class="clip reveal">
-        <video src="demo/nasa-en.mp4?v=3" poster="demo/nasa-kk.jpg?v=3"
+        <video src="demo/nasa-en.mp4?v=4" poster="demo/nasa-kk.jpg?v=4"
                controls preload="none" playsinline></video>
         <figcaption data-ru="Оригинал · english" data-kk="Түпнұсқа · english">Оригинал · english</figcaption>
       </figure>
       <figure class="clip reveal">
-        <video src="demo/nasa-kk.mp4?v=3" poster="demo/nasa-kk.jpg?v=3"
+        <video src="demo/nasa-kk.mp4?v=4" poster="demo/nasa-kk.jpg?v=4"
                controls preload="none" playsinline></video>
         <figcaption data-ru="Дубляж · қазақша" data-kk="Дубляж · қазақша">Дубляж · қазақша</figcaption>
       </figure>
       <figure class="clip reveal">
-        <video src="demo/nasa-ru.mp4?v=3" poster="demo/nasa-kk.jpg?v=3"
+        <video src="demo/nasa-ru.mp4?v=4" poster="demo/nasa-kk.jpg?v=4"
                controls preload="none" playsinline></video>
         <figcaption data-ru="Дубляж · русский" data-kk="Дубляж · орысша">Дубляж · русский</figcaption>
+      </figure>
+      <figure class="clip reveal">
+        <video src="demo/nasa-zh.mp4?v=4" poster="demo/nasa-kk.jpg?v=4"
+               controls preload="none" playsinline></video>
+        <figcaption data-ru="Дубляж · 中文" data-kk="Дубляж · 中文">Дубляж · 中文</figcaption>
       </figure>
     </div>
     <p class="credit">Исходный материал: NASA/Goddard Space Flight Center. Перевод и озвучка — Audara.</p>
@@ -670,8 +678,8 @@
   <section id="voices">
     <div class="kicker" data-ru="Голоса" data-kk="Дауыстар">Голоса</div>
     <h2 data-ru="Послушайте дикторов" data-kk="Дикторларды тыңдаңыз">Послушайте дикторов</h2>
-    <p class="lead" data-ru="Шесть голосов на трёх языках, всего их семнадцать. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия."
-       data-kk="Үш тілде алты дауыс, барлығы он жеті. Оқытушыңыздың дауысы керек пе — оны да жасаймыз: отыз секундтық жазба бойынша, оның келісімімен.">Шесть голосов на трёх языках, всего их семнадцать. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия.</p>
+    <p class="lead" data-ru="Восемь голосов на четырёх языках, всего их семнадцать. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия."
+       data-kk="Төрт тілде сегіз дауыс, барлығы он жеті. Оқытушыңыздың дауысы керек пе — оны да жасаймыз: отыз секундтық жазба бойынша, оның келісімімен.">Восемь голосов на четырёх языках, всего их семнадцать. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия.</p>
 
     <div class="voices" id="voiceList"></div>
     <audio id="voicePlayer" preload="none"></audio>
@@ -1098,7 +1106,7 @@ if (!reduced && 'IntersectionObserver' in window) {
 }
 
 // ---- голоса: файлы лежат рядом со страницей, сервер не нужен ----
-const MEDIA_V = '3';   // меняем при переозвучке: иначе браузер отдаст старое
+const MEDIA_V = '4';   // меняем при переозвучке: иначе браузер отдаст старое
 const VOICE_SAMPLES = [
   { label: 'Дәулет', note: 'мужской', lang: 'қазақша', file: 'voices/kk-kz-daulet.mp3' },
   { label: 'Айгүл', note: 'женский', lang: 'қазақша', file: 'voices/kk-kz-aigul.mp3' },
@@ -1106,6 +1114,8 @@ const VOICE_SAMPLES = [
   { label: 'Денис', note: 'мужской', lang: 'русский', file: 'voices/ru-piper-denis.mp3' },
   { label: 'Andrew', note: 'мужской', lang: 'english', file: 'voices/en-us-andrew.mp3' },
   { label: 'Ava', note: 'женский', lang: 'english', file: 'voices/en-us-ava.mp3' },
+  { label: '云希 Юньси', note: 'мужской', lang: '中文', file: 'voices/zh-cn-yunxi.mp3' },
+  { label: '晓晓 Сяосяо', note: 'женский', lang: '中文', file: 'voices/zh-cn-xiaoxiao.mp3' },
 ];
 const NOTE_KK = { 'мужской': 'ер дауысы', 'женский': 'әйел дауысы',
                   'русский': 'орысша', 'қазақша': 'қазақша', 'english': 'english' };
