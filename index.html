@@ -284,6 +284,43 @@
   @media (max-width: 980px) { .learn { grid-template-columns: 1fr; gap: 24px; } }
 
   /* демо */
+  /* ---------- демо-ролики ---------- */
+  .clip { margin: 0; }
+  .clip video {
+    width: 100%; aspect-ratio: 16/9; display: block;
+    border-radius: 16px; background: #000; border: 1px solid var(--line);
+  }
+  .clip figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
+  .credit { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- голоса ---------- */
+  .voice-langs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+  .voice-langs button {
+    height: 38px; padding: 0 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--muted);
+    font: inherit; font-size: 14px;
+  }
+  .voice-langs button.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .voices { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 12px; margin-top: 16px; }
+  .voice {
+    display: flex; align-items: center; gap: 12px; text-align: left;
+    border: 1px solid var(--line); border-radius: 14px; background: var(--card);
+    padding: 14px 16px; cursor: pointer; font: inherit; color: var(--text);
+    transition: border-color .15s, background .15s;
+  }
+  .voice:hover { border-color: var(--accent); }
+  .voice.on { border-color: var(--accent); background: var(--accent-soft); }
+  .voice .play {
+    width: 38px; height: 38px; flex: none; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .voice.on .play { background: var(--accent); color: var(--accent-ink); }
+  .voice b { display: block; font-size: 14.5px; font-weight: 600; }
+  .voice span { font-size: 12.5px; color: var(--muted); }
+  @media (max-width: 720px) { .voice { min-height: 56px; } }
+
   .demos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 38px; }
   .demo {
     aspect-ratio: 16/9; border: 1.5px dashed var(--line); border-radius: 16px;
@@ -357,7 +394,7 @@
 
     /* На телефоне нажимают пальцем, а не курсором: мелкие цели — это
        промахи. Ниже 44 px по высоте не оставляем ничего, что нажимается. */
-    .lang button, .quick button {
+    .lang button, .quick button, .voice-langs button {
       min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
     }
     .lang button { padding: 0 16px; }
@@ -603,18 +640,37 @@
   <section id="demo">
     <div class="kicker" data-ru="До и после" data-kk="Дейін және кейін">До и после</div>
     <h2 data-ru="Послушайте сами" data-kk="Өзіңіз тыңдаңыз">Послушайте сами</h2>
+    <p class="lead" data-ru="Ролик NASA про астероид Беннуу. Слева оригинал, справа наш дубляж: тот же голос диктора, только по-казахски. Голос взят из самой записи, отдельного образца не давали."
+       data-kk="NASA-ның Беннуу астероиды туралы ролигі. Сол жақта түпнұсқа, оң жақта біздің дубляж: сол дикторлың дауысы, тек қазақша. Дауыс жазбаның өзінен алынған.">Ролик NASA про астероид Беннуу. Слева оригинал, справа наш дубляж: тот же голос диктора, только по-казахски. Голос взят из самой записи, отдельного образца не давали.</p>
     <div class="demos">
-      <div class="demo reveal">
-        <div class="play">▶</div>
-        <b data-ru="Английский курс → қазақша" data-kk="Ағылшын курсы → қазақша">Английский курс → қазақша</b>
-        <span data-ru="(место для вашего демо-ролика)" data-kk="(демо-роликке орын)">(место для вашего демо-ролика)</span>
-      </div>
-      <div class="demo reveal">
-        <div class="play">▶</div>
-        <b data-ru="Русский урок → қазақша" data-kk="Орысша сабақ → қазақша">Русский урок → қазақша</b>
-        <span data-ru="(место для вашего демо-ролика)" data-kk="(демо-роликке орын)">(место для вашего демо-ролика)</span>
-      </div>
+      <figure class="clip reveal">
+        <video id="clipEn" src="demo/nasa-en.mp4" poster="demo/nasa-kk.jpg"
+               controls preload="none" playsinline></video>
+        <figcaption data-ru="Оригинал · english" data-kk="Түпнұсқа · english">Оригинал · english</figcaption>
+      </figure>
+      <figure class="clip reveal">
+        <video id="clipKk" src="demo/nasa-kk.mp4" poster="demo/nasa-kk.jpg"
+               controls preload="none" playsinline></video>
+        <figcaption data-ru="Дубляж · қазақша" data-kk="Дубляж · қазақша">Дубляж · қазақша</figcaption>
+      </figure>
     </div>
+    <p class="credit">Исходный материал: NASA/Goddard Space Flight Center. Перевод и озвучка — Audara.</p>
+  </section>
+
+  <!-- ГОЛОСА -->
+  <section id="voices">
+    <div class="kicker" data-ru="Голоса" data-kk="Дауыстар">Голоса</div>
+    <h2 data-ru="Послушайте дикторов" data-kk="Дикторларды тыңдаңыз">Послушайте дикторов</h2>
+    <p class="lead" data-ru="Семнадцать голосов на четырёх языках. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия."
+       data-kk="Төрт тілде он жеті дауыс. Оқытушыңыздың дауысы керек пе — оны да жасаймыз: отыз секундтық жазба бойынша, оның келісімімен.">Семнадцать голосов на четырёх языках. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия.</p>
+
+    <div class="voice-langs" id="voiceLangs">
+      <button class="on" data-vl="kk" data-ru="Қазақша" data-kk="Қазақша">Қазақша</button>
+      <button data-vl="ru" data-ru="Русский" data-kk="Орысша">Русский</button>
+      <button data-vl="en" data-ru="English" data-kk="English">English</button>
+    </div>
+    <div class="voices" id="voiceList"></div>
+    <audio id="voicePlayer" preload="none"></audio>
   </section>
 
   <!-- ТАРИФЫ -->
@@ -804,6 +860,7 @@ function setLang(lang) {
     el.placeholder = el.dataset['ph' + (lang === 'kk' ? 'Kk' : 'Ru')] || el.dataset.phRu;
   });
   if (typeof calc === 'function') calc();   // «Экономия» тоже переводится
+  if (typeof renderVoices === 'function') renderVoices();
 }
 
 /* ---------- живая демонстрация: одна фраза на четырёх языках ---------- */
@@ -1035,6 +1092,75 @@ if (!reduced && 'IntersectionObserver' in window) {
   show(document.getElementById('bars'));
   show(document.getElementById('loop'));
 }
+
+// ---- голоса: файлы лежат рядом со страницей, сервер не нужен ----
+const VOICE_SAMPLES = [
+  { lang: 'kk', label: 'Дәулет', note: 'мужской', file: 'voices/kk-kz-daulet.mp3' },
+  { lang: 'kk', label: 'Айгүл', note: 'женский', file: 'voices/kk-kz-aigul.mp3' },
+  { lang: 'kk', label: 'Исеке', note: 'мужской', file: 'voices/kk-issai-iseke.mp3' },
+  { lang: 'ru', label: 'Дмитрий', note: 'мужской', file: 'voices/ru-ru-dmitry.mp3' },
+  { lang: 'ru', label: 'Светлана', note: 'женский', file: 'voices/ru-ru-svetlana.mp3' },
+  { lang: 'ru', label: 'Денис', note: 'мужской', file: 'voices/ru-piper-denis.mp3' },
+  { lang: 'ru', label: 'Руслан', note: 'мужской', file: 'voices/ru-piper-ruslan.mp3' },
+  { lang: 'en', label: 'Andrew', note: 'male', file: 'voices/en-us-andrew.mp3' },
+  { lang: 'en', label: 'Ava', note: 'female', file: 'voices/en-us-ava.mp3' },
+];
+const NOTE_KK = { 'мужской': 'ер дауысы', 'женский': 'әйел дауысы',
+                  'male': 'ер дауысы', 'female': 'әйел дауысы' };
+const pageLang = () => document.documentElement.lang === 'kk' ? 'kk' : 'ru';
+let voiceLang = 'kk';
+
+function renderVoices() {
+  const box = document.getElementById('voiceList');
+  if (!box) return;
+  box.innerHTML = VOICE_SAMPLES.filter(v => v.lang === voiceLang).map((v, i) => `
+    <button class="voice" data-file="${v.file}" aria-label="${v.label}">
+      <span class="play">▶</span>
+      <span><b>${v.label}</b><span>${pageLang() === 'kk' ? (NOTE_KK[v.note] || v.note) : v.note}</span></span>
+    </button>`).join('');
+  box.querySelectorAll('.voice').forEach(b => b.onclick = () => playVoice(b));
+}
+
+function playVoice(btn) {
+  const player = document.getElementById('voicePlayer');
+  const file = btn.dataset.file;
+  const same = player.dataset.file === file && !player.paused;
+  document.querySelectorAll('.voice').forEach(b => {
+    b.classList.remove('on');
+    b.querySelector('.play').textContent = '▶';
+  });
+  if (same) { player.pause(); return; }
+  player.src = file;
+  player.dataset.file = file;
+  player.play().then(() => {
+    btn.classList.add('on');
+    btn.querySelector('.play').textContent = '❚❚';
+  }).catch(() => {
+    // файл не подгрузился (открыли страницу локально из архива) — не молчим
+    btn.querySelector('.play').textContent = '—';
+  });
+  player.onended = () => {
+    btn.classList.remove('on');
+    btn.querySelector('.play').textContent = '▶';
+  };
+}
+
+document.querySelectorAll('#voiceLangs button').forEach(b => {
+  b.onclick = () => {
+    voiceLang = b.dataset.vl;
+    document.querySelectorAll('#voiceLangs button').forEach(x => x.classList.toggle('on', x === b));
+    document.getElementById('voicePlayer').pause();
+    renderVoices();
+  };
+});
+renderVoices();
+
+// Два ролика рядом: пока играет один, второй молчит — иначе сравнить нельзя.
+document.querySelectorAll('#demo video').forEach(v => {
+  v.addEventListener('play', () => {
+    document.querySelectorAll('#demo video').forEach(o => { if (o !== v) o.pause(); });
+  });
+});
 </script>
 </body>
 </html>
