@@ -666,14 +666,9 @@
   <section id="voices">
     <div class="kicker" data-ru="Голоса" data-kk="Дауыстар">Голоса</div>
     <h2 data-ru="Послушайте дикторов" data-kk="Дикторларды тыңдаңыз">Послушайте дикторов</h2>
-    <p class="lead" data-ru="Семнадцать голосов на четырёх языках. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия."
-       data-kk="Төрт тілде он жеті дауыс. Оқытушыңыздың дауысы керек пе — оны да жасаймыз: отыз секундтық жазба бойынша, оның келісімімен.">Семнадцать голосов на четырёх языках. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия.</p>
+    <p class="lead" data-ru="Шесть голосов на трёх языках, всего их семнадцать. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия."
+       data-kk="Үш тілде алты дауыс, барлығы он жеті. Оқытушыңыздың дауысы керек пе — оны да жасаймыз: отыз секундтық жазба бойынша, оның келісімімен.">Шесть голосов на трёх языках, всего их семнадцать. Нужен голос вашего преподавателя — сделаем и его: по записи в тридцать секунд, с его согласия.</p>
 
-    <div class="voice-langs" id="voiceLangs">
-      <button class="on" data-vl="kk" data-ru="Қазақша" data-kk="Қазақша">Қазақша</button>
-      <button data-vl="ru" data-ru="Русский" data-kk="Орысша">Русский</button>
-      <button data-vl="en" data-ru="English" data-kk="English">English</button>
-    </div>
     <div class="voices" id="voiceList"></div>
     <audio id="voicePlayer" preload="none"></audio>
   </section>
@@ -1100,28 +1095,25 @@ if (!reduced && 'IntersectionObserver' in window) {
 
 // ---- голоса: файлы лежат рядом со страницей, сервер не нужен ----
 const VOICE_SAMPLES = [
-  { lang: 'kk', label: 'Дәулет', note: 'мужской', file: 'voices/kk-kz-daulet.mp3' },
-  { lang: 'kk', label: 'Айгүл', note: 'женский', file: 'voices/kk-kz-aigul.mp3' },
-  { lang: 'kk', label: 'Исеке', note: 'мужской', file: 'voices/kk-issai-iseke.mp3' },
-  { lang: 'ru', label: 'Дмитрий', note: 'мужской', file: 'voices/ru-ru-dmitry.mp3' },
-  { lang: 'ru', label: 'Светлана', note: 'женский', file: 'voices/ru-ru-svetlana.mp3' },
-  { lang: 'ru', label: 'Денис', note: 'мужской', file: 'voices/ru-piper-denis.mp3' },
-  { lang: 'ru', label: 'Руслан', note: 'мужской', file: 'voices/ru-piper-ruslan.mp3' },
-  { lang: 'en', label: 'Andrew', note: 'male', file: 'voices/en-us-andrew.mp3' },
-  { lang: 'en', label: 'Ava', note: 'female', file: 'voices/en-us-ava.mp3' },
+  { label: 'Дәулет', note: 'мужской', lang: 'қазақша', file: 'voices/kk-kz-daulet.mp3' },
+  { label: 'Айгүл', note: 'женский', lang: 'қазақша', file: 'voices/kk-kz-aigul.mp3' },
+  { label: 'Исеке', note: 'мужской', lang: 'қазақша', file: 'voices/kk-issai-iseke.mp3' },
+  { label: 'Денис', note: 'мужской', lang: 'русский', file: 'voices/ru-piper-denis.mp3' },
+  { label: 'Andrew', note: 'мужской', lang: 'english', file: 'voices/en-us-andrew.mp3' },
+  { label: 'Ava', note: 'женский', lang: 'english', file: 'voices/en-us-ava.mp3' },
 ];
 const NOTE_KK = { 'мужской': 'ер дауысы', 'женский': 'әйел дауысы',
-                  'male': 'ер дауысы', 'female': 'әйел дауысы' };
-const pageLang = () => document.documentElement.lang === 'kk' ? 'kk' : 'ru';
-let voiceLang = 'kk';
+                  'русский': 'орысша', 'қазақша': 'қазақша', 'english': 'english' };
 
 function renderVoices() {
   const box = document.getElementById('voiceList');
   if (!box) return;
-  box.innerHTML = VOICE_SAMPLES.filter(v => v.lang === voiceLang).map((v, i) => `
+  const kk = document.documentElement.lang === 'kk';
+  box.innerHTML = VOICE_SAMPLES.map(v => `
     <button class="voice" data-file="${v.file}" aria-label="${v.label}">
       <span class="play">▶</span>
-      <span><b>${v.label}</b><span>${pageLang() === 'kk' ? (NOTE_KK[v.note] || v.note) : v.note}</span></span>
+      <span><b>${v.label}</b><span>${kk ? (NOTE_KK[v.note] || v.note) : v.note}`
+    + ` · ${kk ? (NOTE_KK[v.lang] || v.lang) : v.lang}</span></span>
     </button>`).join('');
   box.querySelectorAll('.voice').forEach(b => b.onclick = () => playVoice(b));
 }
@@ -1140,24 +1132,13 @@ function playVoice(btn) {
   player.play().then(() => {
     btn.classList.add('on');
     btn.querySelector('.play').textContent = '❚❚';
-  }).catch(() => {
-    // файл не подгрузился (открыли страницу локально из архива) — не молчим
-    btn.querySelector('.play').textContent = '—';
-  });
+  }).catch(() => { btn.querySelector('.play').textContent = '—'; });
   player.onended = () => {
     btn.classList.remove('on');
     btn.querySelector('.play').textContent = '▶';
   };
 }
 
-document.querySelectorAll('#voiceLangs button').forEach(b => {
-  b.onclick = () => {
-    voiceLang = b.dataset.vl;
-    document.querySelectorAll('#voiceLangs button').forEach(x => x.classList.toggle('on', x === b));
-    document.getElementById('voicePlayer').pause();
-    renderVoices();
-  };
-});
 renderVoices();
 
 // Два ролика рядом: пока играет один, второй молчит — иначе сравнить нельзя.
