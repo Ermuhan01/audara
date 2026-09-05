@@ -644,17 +644,17 @@
        data-kk="NASA-ның бір ролигі үш тілде. Дауыс бәрінде бірдей — түпнұсқадағы диктордың дауысы: студия оны жазбаның өзінен алды.">Один ролик NASA на трёх языках. Голос везде один и тот же — диктора из оригинала: студия взяла его из самой записи, отдельного образца не давали.</p>
     <div class="demos">
       <figure class="clip reveal">
-        <video src="demo/nasa-en.mp4" poster="demo/nasa-kk.jpg"
+        <video src="demo/nasa-en.mp4?v=3" poster="demo/nasa-kk.jpg?v=3"
                controls preload="none" playsinline></video>
         <figcaption data-ru="Оригинал · english" data-kk="Түпнұсқа · english">Оригинал · english</figcaption>
       </figure>
       <figure class="clip reveal">
-        <video src="demo/nasa-kk.mp4" poster="demo/nasa-kk.jpg"
+        <video src="demo/nasa-kk.mp4?v=3" poster="demo/nasa-kk.jpg?v=3"
                controls preload="none" playsinline></video>
         <figcaption data-ru="Дубляж · қазақша" data-kk="Дубляж · қазақша">Дубляж · қазақша</figcaption>
       </figure>
       <figure class="clip reveal">
-        <video src="demo/nasa-ru.mp4" poster="demo/nasa-kk.jpg"
+        <video src="demo/nasa-ru.mp4?v=3" poster="demo/nasa-kk.jpg?v=3"
                controls preload="none" playsinline></video>
         <figcaption data-ru="Дубляж · русский" data-kk="Дубляж · орысша">Дубляж · русский</figcaption>
       </figure>
@@ -1094,6 +1094,7 @@ if (!reduced && 'IntersectionObserver' in window) {
 }
 
 // ---- голоса: файлы лежат рядом со страницей, сервер не нужен ----
+const MEDIA_V = '3';   // меняем при переозвучке: иначе браузер отдаст старое
 const VOICE_SAMPLES = [
   { label: 'Дәулет', note: 'мужской', lang: 'қазақша', file: 'voices/kk-kz-daulet.mp3' },
   { label: 'Айгүл', note: 'женский', lang: 'қазақша', file: 'voices/kk-kz-aigul.mp3' },
@@ -1127,7 +1128,7 @@ function playVoice(btn) {
     b.querySelector('.play').textContent = '▶';
   });
   if (same) { player.pause(); return; }
-  player.src = file;
+  player.src = file + '?v=' + MEDIA_V;
   player.dataset.file = file;
   player.play().then(() => {
     btn.classList.add('on');
