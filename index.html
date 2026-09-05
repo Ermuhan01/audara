@@ -301,8 +301,12 @@
     font: inherit; font-size: 14px;
   }
   .voice-langs button.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-  .voices { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 12px; margin-top: 16px; }
+  /* Шесть голосов ложатся в две ровные строки по три. Автоподбор колонок
+     давал четыре и два — вторая строка выглядела обрубком. */
+  .voices { display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 12px; margin-top: 20px; }
+  @media (max-width: 900px) { .voices { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .voices { grid-template-columns: 1fr; } }
   .voice {
     display: flex; align-items: center; gap: 12px; text-align: left;
     border: 1px solid var(--line); border-radius: 14px; background: var(--card);
