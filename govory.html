@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audara — говоры: перевод на языке вашей области</title>
+<meta name="description" content="«Тәте» на западе — мужчина, на юге — женщина. Мы переводим на языке той области, где вас смотрят.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #ffffff; --card: #f6f8f9; --panel: #eef3f5;
+    --line: #dbe3e7; --line-strong: #c3ced5;
+    --text: #14232c; --muted: #55646e;
+    --accent: #0e7490; --accent-ink: #ffffff; --accent-soft: rgba(14,116,144,.08);
+    --good: #14663f; --amber: #8a5a06; --amber-soft: rgba(138,90,6,.10);
+    --display: "Golos Text", "Segoe UI", system-ui, sans-serif;
+    --body: "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--text); font-family: var(--body);
+    line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: var(--display); letter-spacing: -0.03em; }
+  a { color: var(--accent); }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 20px 24px; max-width: 1120px; margin: 0 auto;
+  }
+  .logo {
+    font-family: var(--display); font-size: 22px; font-weight: 800;
+    letter-spacing: -0.04em; color: var(--text); text-decoration: none;
+  }
+  .logo i { font-style: normal; color: var(--accent); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; background: var(--paper);
+    color: var(--text); border: 1px solid var(--line-strong); font-weight: 600;
+    font-size: 13.5px; text-decoration: none; padding: 10px 16px; border-radius: 12px;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .head { padding: 34px 0 6px; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 12px;
+    font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.06; font-weight: 800; }
+  .lead { margin: 18px auto 0; font-size: 18px; color: var(--muted); max-width: 60ch; }
+
+  /* ---------- схема областей ---------- */
+  .mapwrap { margin: 30px 0 8px; }
+  svg.map { width: 100%; height: auto; display: block; }
+  svg.map .zone {
+    fill: var(--card); stroke: var(--line-strong); stroke-width: 2;
+    cursor: pointer; transition: fill .18s, stroke .18s;
+  }
+  svg.map .zone.ready { fill: var(--accent-soft); stroke: var(--accent); }
+  svg.map .zone:hover { fill: rgba(14,116,144,.18); }
+  svg.map .zone.on { fill: var(--accent); stroke: var(--accent); }
+  svg.map text {
+    font-family: var(--display); font-size: 15px; font-weight: 700;
+    fill: var(--text); pointer-events: none; text-anchor: middle;
+  }
+  svg.map .lbl.on text, svg.map .lbl.on text.sub { fill: var(--accent-ink); }
+  svg.map text.sub { font-size: 11.5px; font-weight: 400; fill: var(--muted); }
+  .maplegend {
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    font-size: 13px; color: var(--muted); margin-top: 4px;
+  }
+  .maplegend b { display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+                 vertical-align: -1px; margin-right: 6px; }
+
+  /* ---------- панель результата ---------- */
+  .demo {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 22px 24px; margin: 22px 0 8px;
+  }
+  .demo .who {
+    font-family: var(--display); font-weight: 800; font-size: 20px; margin-bottom: 4px;
+  }
+  .demo .oblasts { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .line { display: grid; grid-template-columns: 118px 1fr auto; gap: 14px;
+          align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+  .line:first-of-type { border-top: 0; }
+  .line .tag { font-size: 12px; font-weight: 700; letter-spacing: .06em;
+               text-transform: uppercase; color: var(--muted); }
+  .line .txt { font-size: 17px; }
+  .line .txt em { font-style: normal; background: var(--amber-soft);
+                  border-bottom: 2px solid var(--amber); padding: 0 3px; font-weight: 700; }
+  .play {
+    border: 1px solid var(--line-strong); background: var(--paper); color: var(--text);
+    width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 13px;
+  }
+  .play:hover { border-color: var(--accent); color: var(--accent); }
+  .play.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .empty { color: var(--muted); }
+  .empty b { color: var(--text); }
+
+  section { padding: 26px 0; border-top: 1px solid var(--line); margin-top: 26px; }
+  h2 { font-size: 24px; font-weight: 800; margin-bottom: 12px; }
+  p { margin-bottom: 14px; }
+  .box { background: var(--accent-soft); border: 1px solid rgba(14,116,144,.25);
+         border-radius: 14px; padding: 20px 22px; }
+  .box p:last-child { margin-bottom: 0; }
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 24px 0 40px;
+           color: var(--muted); font-size: 14px; }
+  @media (max-width: 620px) {
+    .line { grid-template-columns: 1fr auto; }
+    .line .tag { grid-column: 1 / -1; }
+    /* Схема шириной в телефон ужимает и подписи: перечень городов в ней
+       становится нечитаемым, а название области — едва. Города убираем,
+       название увеличиваем. */
+    svg.map text.sub { display: none; }
+    svg.map text { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">Aud<i>a</i>ra</a>
+  <a class="btn" href="index.html">← На главную</a>
+</header>
+
+<main class="wrap">
+
+<div class="head">
+  <div class="eyebrow">Говоры</div>
+  <h1>«Тәте» — это мужчина или женщина?</h1>
+  <p class="lead">Смотря где спросить. На западе тәте — старший родственник,
+  мужчина. На юге — женщина. Одно слово, одна фраза, и два разных перевода.
+  Мы переводим на языке той области, где вас будут смотреть.</p>
+</div>
+
+<div class="mapwrap">
+  <svg class="map" viewBox="0 0 760 330" role="img"
+       aria-label="Схема областей Казахстана по говорам">
+    <title>Говоры Казахстана</title>
+    <!-- Это схема, а не географическая карта: пять зон в том порядке,
+         в каком они лежат в стране, без притязаний на точные границы. -->
+    <g id="zones">
+      <path class="zone ready" data-r="batys"
+            d="M22 152 L58 68 L214 58 L226 152 L214 252 L54 246 Z"></path>
+      <path class="zone" data-r="soltustik"
+            d="M226 152 L214 58 L470 48 L482 152 Z"></path>
+      <path class="zone" data-r="ortalyq"
+            d="M226 152 L482 152 L492 256 L214 252 Z"></path>
+      <path class="zone" data-r="shygys"
+            d="M482 152 L470 48 L734 62 L744 184 L492 256 Z"></path>
+      <path class="zone ready" data-r="ongtustik"
+            d="M214 252 L492 256 L744 184 L698 302 L300 308 Z"></path>
+    </g>
+    <g id="labels">
+      <g class="lbl" data-r="batys">
+        <text x="122" y="152">Батыс</text>
+        <text class="sub" x="122" y="172">Атырау · Ақтөбе · Орал</text>
+      </g>
+      <g class="lbl" data-r="soltustik">
+        <text x="350" y="98">Солтүстік</text>
+        <text class="sub" x="350" y="118">Петропавл · Көкшетау</text>
+      </g>
+      <g class="lbl" data-r="ortalyq">
+        <text x="352" y="196">Орталық</text>
+        <text class="sub" x="352" y="216">Қарағанды · Астана</text>
+      </g>
+      <g class="lbl" data-r="shygys">
+        <text x="608" y="140">Шығыс</text>
+        <text class="sub" x="608" y="160">Өскемен · Семей</text>
+      </g>
+      <g class="lbl" data-r="ongtustik">
+        <text x="470" y="272">Оңтүстік</text>
+        <text class="sub" x="470" y="292">Шымкент · Түркістан · Алматы</text>
+      </g>
+    </g>
+  </svg>
+  <div class="maplegend">
+    <span><b style="background:var(--accent-soft); border:1px solid var(--accent)"></b>слова собраны</span>
+    <span><b style="background:var(--card); border:1px solid var(--line-strong)"></b>ждём носителя</span>
+  </div>
+</div>
+
+<div class="demo" id="demo"></div>
+
+<section>
+  <h2>Почему этого нет ни у кого</h2>
+  <p>Мировые сервисы учатся на том, что лежит в интернете. Казахской
+  диалектной речи там нет: открытые наборы — это начитка книг и новостей,
+  литературная норма. Скачать говор нельзя, купить нельзя. Его можно только
+  собрать здесь, у людей, которые слышат разницу.</p>
+  <p>В списке «175 языков» у конкурентов есть строка «казахский». Строки
+  «казахский, западный» там не будет никогда — ради сотого языка в списке
+  никто не станет разбираться, кто такая тәте.</p>
+</section>
+
+<section>
+  <h2>Честно о том, чего мы пока не умеем</h2>
+  <p><strong>Голос один на все области.</strong> Различаются слова, а не
+  выговор: регионального диктора у нас пока нет, и делать вид, что есть, мы
+  не станем. Чтобы появился, нужен носитель и два-три часа записи — это
+  работа, а не настройка.</p>
+  <p><strong>Собрано пока два говора из пяти.</strong> Остальные на схеме
+  светлые, и это не оформление, а положение дел.</p>
+
+  <div class="box">
+    <p><strong>Знаете, как говорят у вас?</strong> Напишите нам слово, которое
+    в вашей области значит или звучит не так, как в учебнике. Это и есть тот
+    самый словарь — по одному слову. Каждое попавшее в него слово начинает
+    работать на всех наших заказах в вашей области.</p>
+    <p style="margin-top:12px"><a class="btn" href="https://wa.me/77078055819">Написать в WhatsApp</a></p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p><a href="index.html">На главную</a></p>
+</footer>
+
+</main>
+
+<audio id="player" preload="none"></audio>
+<script>
+const V = '1';   // версия записей: меняем при переозвучке
+
+const ГОВОРЫ = {
+  batys: {
+    имя: 'Западный говор',
+    области: 'Атырауская, Актюбинская, Западно-Казахстанская, Мангистауская',
+    перевод: 'Дядя пришёл к нам в гости.',
+    слово: 'Дядя',
+    файл: 'govory/batys-ru.mp3',
+  },
+  ongtustik: {
+    имя: 'Южный говор',
+    области: 'Туркестанская, Жамбылская, Кызылординская, Алматинская',
+    перевод: 'Тётя пришла к нам в гости.',
+    слово: 'Тётя',
+    файл: 'govory/ongtustik-ru.mp3',
+  },
+  soltustik: { имя: 'Северный говор', области: 'Северо-Казахстанская, Акмолинская, Костанайская' },
+  ortalyq:   { имя: 'Центральный говор', области: 'Карагандинская, Улытауская, Астана' },
+  shygys:    { имя: 'Восточный говор', области: 'Восточно-Казахстанская, Абайская, Павлодарская' },
+};
+
+const ИСХОДНИК = { текст: 'Тәте бізге қонаққа келді.', файл: 'govory/source-kk.mp3' };
+
+function подсветить(текст, слово) {
+  return слово ? текст.replace(слово, `<em>${слово}</em>`) : текст;
+}
+
+function показать(код) {
+  const г = ГОВОРЫ[код];
+  document.querySelectorAll('svg.map .zone, svg.map .lbl').forEach(el =>
+    el.classList.toggle('on', el.dataset.r === код));
+
+  const строка = (тег, текст, файл, слово) => `
+    <div class="line">
+      <span class="tag">${тег}</span>
+      <span class="txt">${подсветить(текст, слово)}</span>
+      ${файл ? `<button class="play" data-f="${файл}" aria-label="Послушать">▶</button>`
+             : '<span></span>'}
+    </div>`;
+
+  document.getElementById('demo').innerHTML = `
+    <div class="who">${г.имя}</div>
+    <div class="oblasts">${г.области}</div>
+    ${строка('оригинал', ИСХОДНИК.текст, ИСХОДНИК.файл, 'Тәте')}
+    ${г.перевод
+      ? строка('перевод', г.перевод, г.файл, г.слово)
+      : `<div class="line"><span class="tag">перевод</span>
+           <span class="txt empty">Слов этого говора у нас пока нет.
+           <b>Знаете, как здесь говорят?</b> Напишите — добавим.</span>
+           <span></span></div>`}`;
+
+  document.querySelectorAll('#demo .play').forEach(b => b.onclick = () => играть(b));
+}
+
+function играть(btn) {
+  const p = document.getElementById('player');
+  const f = btn.dataset.f;
+  const тот_же = p.dataset.f === f && !p.paused;
+  document.querySelectorAll('.play').forEach(b => { b.classList.remove('on'); b.textContent = '▶'; });
+  if (тот_же) { p.pause(); return; }
+  p.src = f + '?v=' + V;
+  p.dataset.f = f;
+  p.play().then(() => { btn.classList.add('on'); btn.textContent = '❚❚'; })
+          .catch(() => { btn.textContent = '—'; });
+  p.onended = () => { btn.classList.remove('on'); btn.textContent = '▶'; };
+}
+
+document.querySelectorAll('svg.map .zone').forEach(z =>
+  z.addEventListener('click', () => показать(z.dataset.r)));
+показать('batys');
+</script>
+</body>
+</html>
