@@ -402,7 +402,7 @@
   .plan { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; position: relative; }
   .plan h3 { font-size: 17px; }
   .price { font-size: 44px; font-weight: 300; letter-spacing: -0.04em; color: var(--ink); margin: 18px 0 4px; line-height: 1; font-variant-numeric: tabular-nums; }
-  .price small { font-size: 15px; letter-spacing: 0; color: var(--muted); font-weight: 400; }
+  .price small { display: block; margin-top: 6px; font-size: 14.5px; letter-spacing: 0; color: var(--muted); font-weight: 400; }
   .plan ul { list-style: none; margin-top: 20px; display: grid; gap: 10px; }
   .plan li { font-size: 15px; color: var(--muted); padding-left: 24px; position: relative; }
   .plan li::before { content: ""; position: absolute; left: 0; top: 7px; width: 12px; height: 7px; border-left: 1.6px solid currentColor;
@@ -412,6 +412,7 @@
   .plan.hot .price small, .plan.hot li { color: #c9c6c1; }
   .plan.hot li::before { color: #fff; }
   .badge { position: absolute; top: 24px; right: 24px; font-size: 12px; font-weight: 500; background: #fff; color: var(--ink); border-radius: 999px; padding: 3px 10px; }
+  .badge.line { background: var(--soft); border: 1px solid var(--line); color: var(--muted); }
   .pricing-note { margin-top: 20px; }
   .pricing-note b { color: var(--ink); font-weight: 600; }
 
@@ -436,6 +437,8 @@
   .sum { font-size: clamp(40px, 5vw, 60px); font-weight: 300; letter-spacing: -0.045em; color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums; }
   .cmp { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 15px; color: var(--muted); }
   .cmp b { font-weight: 400; text-decoration: line-through; font-variant-numeric: tabular-nums; }
+  .cmp.plain { margin-top: 18px; }
+  .cmp.plain b { text-decoration: none; color: var(--ink); font-weight: 500; }
   .save { font-size: 15px; color: var(--good); font-weight: 500; min-height: 24px; margin: 8px 0 22px; }
   .calc-out .btn { align-self: flex-start; }
   .tiny { font-size: 13px; color: var(--faint); margin-top: 14px; line-height: 1.5; }
@@ -908,9 +911,9 @@
         <p class="lead" data-ru="Курс на десять часов — это недели работы студии. У нас это несколько дней: озвученные уроки, субтитры SRT и VTT, словарь терминов курса и правленая расшифровка."
            data-kk="Он сағаттық курс — студияда апталап жұмыс. Бізде бұл бірнеше күн: дыбысталған сабақтар, SRT және VTT субтитрлері, курс терминдерінің сөздігі және өңделген мәтін.">
           Курс на десять часов — это недели работы студии. У нас это несколько дней: озвученные уроки, субтитры SRT и VTT, словарь терминов курса и правленая расшифровка.</p>
-        <p class="note" style="position:relative; margin-top:16px" data-ru="Первый урок делаем со скидкой 50%, чтобы вы оценили качество на своём материале."
-           data-kk="Сапаны өз материалыңызда бағалауыңыз үшін алғашқы сабақты 50% жеңілдікпен жасаймыз.">
-          Первый урок делаем со скидкой 50%, чтобы вы оценили качество на своём материале.</p>
+        <p class="note" style="position:relative; margin-top:16px" data-ru="Первый урок делаем за половину цены — 12 000 ₸, чтобы вы оценили качество на своём материале."
+           data-kk="Сапаны өз материалыңызда бағалауыңыз үшін алғашқы сабақты жартылай бағамен — 12 000 ₸ жасаймыз.">
+          Первый урок делаем за половину цены — 12 000 ₸, чтобы вы оценили качество на своём материале.</p>
       </div>
       <div class="deliver reveal">
         <h3 data-ru="Что вы получаете" data-kk="Не аласыз">Что вы получаете</h3>
@@ -985,38 +988,45 @@
     </div>
     <div class="plans">
       <div class="plan reveal">
-        <h3 data-ru="Субтитры + перевод" data-kk="Субтитрлер + аударма">Субтитры + перевод</h3>
-        <div class="price">500 ₸ <small data-ru="/ мин видео" data-kk="/ бейне мин">/ мин видео</small></div>
+        <span class="badge line" data-ru="с чего начать" data-kk="неден бастау">с чего начать</span>
+        <h3 data-ru="Урок" data-kk="Сабақ">Урок</h3>
+        <div class="price">24 000 ₸ <small data-ru="до 20 минут видео" data-kk="20 минутқа дейінгі бейне">до 20 минут видео</small></div>
         <ul>
-          <li data-ru="Расшифровка с таймкодами" data-kk="Таймкодтармен транскрипция">Расшифровка с таймкодами</li>
-          <li data-ru="Перевод на выбранный язык" data-kk="Таңдалған тілге аударма">Перевод на выбранный язык</li>
-          <li data-ru="Файлы SRT и VTT" data-kk="SRT және VTT файлдары">Файлы SRT и VTT</li>
+          <li data-ru="Перевод и озвучка точно в тайминг" data-kk="Аударма және таймингке дәл дыбыстау">Перевод и озвучка точно в тайминг</li>
+          <li data-ru="Субтитры SRT и VTT" data-kk="SRT және VTT субтитрлері">Субтитры SRT и VTT</li>
+          <li data-ru="Версия для Reels и Shorts" data-kk="Reels пен Shorts нұсқасы">Версия для Reels и Shorts</li>
+          <li data-ru="Первый урок — за половину: 12 000 ₸" data-kk="Алғашқы сабақ — жартылай бағамен: 12 000 ₸">Первый урок — за половину: 12 000 ₸</li>
         </ul>
       </div>
       <div class="plan hot reveal">
-        <span class="badge" data-ru="выбирают чаще" data-kk="жиі таңдайды">выбирают чаще</span>
-        <h3 data-ru="Локализация под ключ" data-kk="Толық локализация">Локализация под ключ</h3>
-        <div class="price">1 200 ₸ <small data-ru="/ мин видео" data-kk="/ бейне мин">/ мин видео</small></div>
+        <span class="badge" data-ru="ровный счёт за час" data-kk="сағатына тұрақты баға">ровный счёт за час</span>
+        <h3 data-ru="Час видео" data-kk="Бір сағат бейне">Час видео</h3>
+        <div class="price">72 000 ₸ <small data-ru="до 60 минут видео" data-kk="60 минутқа дейінгі бейне">до 60 минут видео</small></div>
         <ul>
-          <li data-ru="Всё из «Субтитров»" data-kk="«Субтитрлердегі» бәрі">Всё из «Субтитров»</li>
-          <li data-ru="Озвучка точно в тайминг" data-kk="Таймингке дәл дыбыстау">Озвучка точно в тайминг</li>
-          <li data-ru="Музыка и фон сохраняются" data-kk="Музыка мен фон сақталады">Музыка и фон сохраняются</li>
-          <li data-ru="Версии для соцсетей" data-kk="Әлеуметтік желі нұсқалары">Версии для соцсетей</li>
+          <li data-ru="Всё из пакета «Урок»" data-kk="«Сабақ» пакетіндегінің бәрі">Всё из пакета «Урок»</li>
+          <li data-ru="Словарь терминов вашего курса" data-kk="Курс терминдерінің сөздігі">Словарь терминов вашего курса</li>
+          <li data-ru="Приёмка по ссылке, замечания к фразе" data-kk="Сілтеме арқылы қабылдау, фразаға ескертпе">Приёмка по ссылке, замечания к фразе</li>
+          <li data-ru="Правки по терминам — без доплаты" data-kk="Терминдер бойынша түзетулер — қосымша төлемсіз">Правки по терминам — без доплаты</li>
         </ul>
       </div>
       <div class="plan reveal">
-        <h3 data-ru="С редактором-носителем" data-kk="Тіл иесі редактормен">С редактором-носителем</h3>
-        <div class="price">2 000 ₸ <small data-ru="/ мин видео" data-kk="/ бейне мин">/ мин видео</small></div>
+        <span class="badge line" data-ru="выгоднее всего" data-kk="ең тиімдісі">выгоднее всего</span>
+        <h3 data-ru="Курс" data-kk="Курс">Курс</h3>
+        <div class="price">600 000 ₸ <small data-ru="за 10 часов видео" data-kk="10 сағат бейне үшін">за 10 часов видео</small></div>
         <ul>
-          <li data-ru="Всё из «Локализации»" data-kk="«Локализациядағы» бәрі">Всё из «Локализации»</li>
-          <li data-ru="Профессиональная вычитка" data-kk="Кәсіби тексеру">Профессиональная вычитка</li>
-          <li data-ru="Гарантия терминологии" data-kk="Терминология кепілдігі">Гарантия терминологии</li>
+          <li data-ru="60 000 ₸ за час — на 17% дешевле" data-kk="Сағатына 60 000 ₸ — 17% арзан">60 000 ₸ за час — на 17% дешевле</li>
+          <li data-ru="Сдаём частями, по разделам курса" data-kk="Курс бөлімдері бойынша бөлікпен тапсырамыз">Сдаём частями, по разделам курса</li>
+          <li data-ru="Термины едины во всех уроках" data-kk="Терминдер барлық сабақта бірдей">Термины едины во всех уроках</li>
+          <li data-ru="Доступ в студию вашему методисту" data-kk="Әдіскеріңізге студияға кіру">Доступ в студию вашему методисту</li>
         </ul>
       </div>
     </div>
-    <p class="note pricing-note" data-ru="Документы — от 500 ₸ за страницу (1 800 знаков), с вычиткой — 1 500 ₸. Час видео под ключ — 72 000 ₸ вместо 300 000 ₸ у студии."
-       data-kk="Құжаттар — бетіне 500 ₸-ден (1 800 таңба), түзетуімен — 1 500 ₸. Бір сағат бейне толық локализациямен — студиядағы 300 000 ₸ орнына 72 000 ₸.">
-      Документы — от 500 ₸ за страницу (1 800 знаков), с вычиткой — 1 500 ₸. Час видео под ключ — 72 000 ₸ вместо 300 000 ₸ у студии.</p>
+    <p class="note pricing-note"
+       data-ru="К любому пакету: только субтитры, без озвучки — вдвое дешевле; вычитка носителем языка — плюс 48 000 ₸ за час видео. Документы считаем отдельно: 500 ₸ за страницу (1 800 знаков), с вычиткой — 1 500 ₸. Для сравнения: студия дубляжа берёт за час видео около 300 000 ₸."
+       data-kk="Кез келген пакетке: дыбыстаусыз, тек субтитр — екі есе арзан; тіл иесінің тексеруі — бір сағат бейнеге қосымша 48 000 ₸. Құжаттар бөлек есептеледі: бетіне 500 ₸ (1 800 таңба), тексерумен — 1 500 ₸. Салыстыру үшін: дубляж студиясы бір сағат бейне үшін шамамен 300 000 ₸ алады.">
+      К любому пакету: только субтитры, без озвучки — вдвое дешевле; вычитка носителем языка — плюс 48 000 ₸ за час видео.
+      Документы считаем отдельно: 500 ₸ за страницу (1 800 знаков), с вычиткой — 1 500 ₸.
+      Для сравнения: студия дубляжа берёт за час видео около 300 000 ₸.</p>
 
     <div class="calc reveal" id="calc">
       <div>
@@ -1024,9 +1034,9 @@
         <label class="fld">
           <span data-ru="Что нужно" data-kk="Не қажет">Что нужно</span>
           <select id="cPlan">
-            <option value="500" data-ru="Субтитры и перевод" data-kk="Субтитрлер мен аударма">Субтитры и перевод</option>
-            <option value="1200" selected data-ru="Локализация под ключ" data-kk="Толық локализация">Локализация под ключ</option>
-            <option value="2000" data-ru="Дубляж + редактор-носитель" data-kk="Дубляж + тіл иесі редактор">Дубляж + редактор-носитель</option>
+            <option value="subs" data-ru="Только субтитры, без озвучки" data-kk="Дыбыстаусыз, тек субтитр">Только субтитры, без озвучки</option>
+            <option value="full" selected data-ru="Перевод и озвучка" data-kk="Аударма және дыбыстау">Перевод и озвучка</option>
+            <option value="native" data-ru="Перевод, озвучка и вычитка носителем" data-kk="Аударма, дыбыстау және тіл иесінің тексеруі">Перевод, озвучка и вычитка носителем</option>
           </select>
         </label>
         <label class="fld">
@@ -1034,24 +1044,28 @@
           <input type="number" id="cMin" min="1" max="100000" value="60" inputmode="numeric">
         </label>
         <div class="quick" id="cQuick">
-          <button type="button" data-m="10" data-ru="10 мин" data-kk="10 мин">10 мин</button>
-          <button type="button" data-m="60" class="on" data-ru="1 час" data-kk="1 сағат">1 час</button>
-          <button type="button" data-m="300" data-ru="5 часов" data-kk="5 сағат">5 часов</button>
-          <button type="button" data-m="1200" data-ru="Курс на 20 часов" data-kk="20 сағаттық курс">Курс на 20 часов</button>
+          <button type="button" data-m="20" data-ru="Урок, 20 мин" data-kk="Сабақ, 20 мин">Урок, 20 мин</button>
+          <button type="button" data-m="60" class="on" data-ru="Час видео" data-kk="Бір сағат бейне">Час видео</button>
+          <button type="button" data-m="600" data-ru="Курс, 10 часов" data-kk="Курс, 10 сағат">Курс, 10 часов</button>
+          <button type="button" data-m="1200" data-ru="Курс, 20 часов" data-kk="Курс, 20 сағат">Курс, 20 часов</button>
         </div>
       </div>
       <div class="calc-out">
         <div class="cap" data-ru="Ваша цена" data-kk="Сіздің бағаңыз">Ваша цена</div>
         <div class="sum" id="cSum" aria-live="polite">72 000 ₸</div>
+        <div class="cmp plain">
+          <span data-ru="Это пакет" data-kk="Бұл пакет">Это пакет</span>
+          <b id="cPack">Час видео</b>
+        </div>
         <div class="cmp">
           <span data-ru="У студии дубляжа" data-kk="Дубляж студиясында">У студии дубляжа</span>
           <b id="cOld">300 000 ₸</b>
         </div>
         <div class="save" id="cSave"></div>
         <a class="btn" href="#contact" data-ru="Начать с пилота со скидкой" data-kk="Жеңілдікті пилоттан бастау">Начать с пилота со скидкой</a>
-        <p class="tiny" data-ru="Расчёт ориентировочный: точная цена зависит от материала и сроков. Первый ролик — со скидкой 50%."
-           data-kk="Есеп шамамен: нақты баға материал мен мерзімге байланысты. Бірінші ролик — 50% жеңілдікпен.">
-          Расчёт ориентировочный: точная цена зависит от материала и сроков. Первый ролик — со скидкой 50%.</p>
+        <p class="tiny" data-ru="Расчёт ориентировочный: точная цена зависит от материала и сроков. Первый урок — за половину, 12 000 ₸."
+           data-kk="Есеп шамамен: нақты баға материал мен мерзімге байланысты. Алғашқы сабақ — жартылай бағамен, 12 000 ₸.">
+          Расчёт ориентировочный: точная цена зависит от материала и сроков. Первый урок — за половину, 12 000 ₸.</p>
       </div>
     </div>
   </section>
@@ -1331,17 +1345,41 @@ document.getElementById('legend').addEventListener('mouseleave', () => pick(-1))
 
 /* ---------- калькулятор ---------- */
 const STUDIO_RATE = 5000;   // студийный дубляж ≈ 300 000 ₸ за час = 5 000 ₸/мин
+const ЧАС = 72000;          // пакет «Час видео»
+const ЧАС_КУРС = 60000;     // от десяти часов — дешевле, словарь уже набран
+const УРОК = 24000;         // пакет «Урок»: до 20 минут
+const ВЫЧИТКА = 48000;      // носитель языка, за час видео
 const money = n => Math.round(n).toLocaleString('ru-RU').replace(/,/g, ' ') + ' ₸';
 
+/* Цена по пакетам, а не по минутам: короткое видео считается пакетом «Урок»,
+   дальше — по часам, от десяти часов дешевле. Субтитры без озвучки — половина. */
+function пакет(min) {
+  const час = min / 60;
+  const kk = document.documentElement.lang === 'kk';
+  if (min <= 20) return { сумма: УРОК, имя: kk ? 'Сабақ' : 'Урок' };
+  if (min <= 60) return { сумма: ЧАС, имя: kk ? 'Бір сағат бейне' : 'Час видео' };
+  const ставка = час >= 10 ? ЧАС_КУРС : ЧАС;
+  return { сумма: час * ставка,
+           имя: час >= 10 ? (kk ? 'Курс' : 'Курс') : (kk ? 'Бірнеше сағат' : 'Несколько часов') };
+}
+
 function calc() {
-  const rate = +document.getElementById('cPlan').value;
+  const вид = document.getElementById('cPlan').value;
   const min = Math.max(1, Math.min(100000, +document.getElementById('cMin').value || 1));
-  const sum = rate * min;
+  const p = пакет(min);
+  let sum = p.сумма;
+  if (вид === 'subs') sum = sum / 2;
+  if (вид === 'native') sum += ВЫЧИТКА * min / 60;
   const old = STUDIO_RATE * min;
+  document.getElementById('cPack').textContent = p.имя;
   document.getElementById('cSum').textContent = money(sum);
   document.getElementById('cOld').textContent = money(old);
+  // на коротком ролике сравнивать со студийным часом нечестно: там столько
+  // не берут за пять минут, и «экономия» выходит смешной
+  const сравнение = min >= 20;
+  document.querySelector('.cmp:not(.plain)').style.display = сравнение ? '' : 'none';
   const lang = document.documentElement.lang === 'kk' ? 'kk' : 'ru';
-  document.getElementById('cSave').textContent = sum < old
+  document.getElementById('cSave').textContent = сравнение && sum < old
     ? (lang === 'kk' ? `Үнемдейсіз ${money(old - sum)}` : `Экономия ${money(old - sum)}`)
     : '';
   document.querySelectorAll('#cQuick button')
